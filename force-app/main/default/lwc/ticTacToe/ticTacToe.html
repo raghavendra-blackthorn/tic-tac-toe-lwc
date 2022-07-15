@@ -1,0 +1,66 @@
+<template>
+    <div class="main slds-box">
+        <!-- Header -->
+        <lightning-layout class="header slds-align_absolute-center">
+            <lightning-layout-item padding="around-small">
+                <h1>Welcome! SFDC CHAMPION Game Arena</h1>
+            </lightning-layout-item>
+        </lightning-layout>
+
+        <!-- Game Info -->
+        <lightning-layout class="slds-align_absolute-center gameInfo">
+            <lightning-layout-item padding="around-small">
+                <span data-id="player-turn-text"></span>
+                <span class="gameOver">Game Over</span>
+                <span>Start game</span>
+            </lightning-layout-item>
+        </lightning-layout>
+
+        <!-- Game Container -->
+        <lightning-layout class="playArea slds-align_absolute-center">
+            <!-- Game Information -->
+            <lightning-layout-item padding="around-large">
+                <lightning-layout>
+                    <lightning-layout-item class="boxStyle bt-0 bl-0" padding="around-small">
+                        <span data-id="box-1" class="box" onclick={handleBoxClick}></span>
+                    </lightning-layout-item>
+                    <lightning-layout-item class="boxStyle bt-0" padding="around-small">
+                        <span data-id="box-2" class="box" onclick={handleBoxClick}></span>
+                    </lightning-layout-item>
+                    <lightning-layout-item class="boxStyle bt-0 br-0" padding="around-small">
+                        <span data-id="box-3" class="box" onclick={handleBoxClick}></span>
+                    </lightning-layout-item>
+                </lightning-layout>
+                <lightning-layout>
+                    <lightning-layout-item class="boxStyle bl-0" padding="around-small">
+                        <span data-id="box-4" class="box" onclick={handleBoxClick}></span>
+                    </lightning-layout-item>
+                    <lightning-layout-item class="boxStyle" padding="around-small">
+                        <span data-id="box-5" class="box" onclick={handleBoxClick}></span>
+                    </lightning-layout-item>
+                    <lightning-layout-item class="boxStyle br-0" padding="around-small">
+                        <span data-id="box-6" class="box" onclick={handleBoxClick}></span>
+                    </lightning-layout-item>
+                </lightning-layout>
+                <lightning-layout>
+                    <lightning-layout-item class="boxStyle bl-0 bb-0" padding="around-small">
+                        <span data-id="box-7" class="box" onclick={handleBoxClick}></span>
+                    </lightning-layout-item>
+                    <lightning-layout-item class="boxStyle bb-0" padding="around-small">
+                        <span data-id="box-8" class="box" onclick={handleBoxClick}></span>
+                    </lightning-layout-item>
+                    <lightning-layout-item class="boxStyle bb-0 br-0" padding="around-small">
+                        <span data-id="box-9" class="box" onclick={handleBoxClick}></span>
+                    </lightning-layout-item>
+                </lightning-layout>
+            </lightning-layout-item>
+        </lightning-layout>
+
+        <!-- Restart -->
+        <lightning-layout class="">
+            <lightning-layout-item class="restart slds-align_absolute-center" padding="around-small">
+                <span class="" onclick={handleRestart}>Restart Game</span>
+            </lightning-layout-item>
+        </lightning-layout>
+    </div>
+</template>
