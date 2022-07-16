@@ -1,5 +1,7 @@
 <template>
     <div class="main slds-box">
+        <lightning-spinner if:true={isLoading} alternative-text="Loading" size="medium"></lightning-spinner>
+
         <!-- Header -->
         <lightning-layout class="header slds-align_absolute-center">
             <lightning-layout-item padding="around-small">
@@ -11,8 +13,9 @@
         <lightning-layout class="slds-align_absolute-center gameInfo">
             <lightning-layout-item padding="around-small">
                 <span data-id="player-turn-text"></span>
-                <span class="gameOver">Game Over</span>
-                <span>Start game</span>
+                <span if:true={isGameOver}>Game Over: </span>
+                <span class="turnWon" data-id="player-won"></span>
+                <span if:true={isGameOn}>Start game</span>
             </lightning-layout-item>
         </lightning-layout>
 
@@ -22,45 +25,61 @@
             <lightning-layout-item padding="around-large">
                 <lightning-layout>
                     <lightning-layout-item class="boxStyle bt-0 bl-0" padding="around-small">
-                        <span data-id="box-1" class="box" onclick={handleBoxClick}></span>
+                        <span data-id="box-0" class="box" onclick={handleBoxClick}></span>
                     </lightning-layout-item>
                     <lightning-layout-item class="boxStyle bt-0" padding="around-small">
-                        <span data-id="box-2" class="box" onclick={handleBoxClick}></span>
+                        <span data-id="box-1" class="box" onclick={handleBoxClick}></span>
                     </lightning-layout-item>
                     <lightning-layout-item class="boxStyle bt-0 br-0" padding="around-small">
-                        <span data-id="box-3" class="box" onclick={handleBoxClick}></span>
+                        <span data-id="box-2" class="box" onclick={handleBoxClick}></span>
                     </lightning-layout-item>
                 </lightning-layout>
                 <lightning-layout>
                     <lightning-layout-item class="boxStyle bl-0" padding="around-small">
-                        <span data-id="box-4" class="box" onclick={handleBoxClick}></span>
+                        <span data-id="box-3" class="box" onclick={handleBoxClick}></span>
                     </lightning-layout-item>
                     <lightning-layout-item class="boxStyle" padding="around-small">
-                        <span data-id="box-5" class="box" onclick={handleBoxClick}></span>
+                        <span data-id="box-4" class="box" onclick={handleBoxClick}></span>
                     </lightning-layout-item>
                     <lightning-layout-item class="boxStyle br-0" padding="around-small">
-                        <span data-id="box-6" class="box" onclick={handleBoxClick}></span>
+                        <span data-id="box-5" class="box" onclick={handleBoxClick}></span>
                     </lightning-layout-item>
                 </lightning-layout>
                 <lightning-layout>
                     <lightning-layout-item class="boxStyle bl-0 bb-0" padding="around-small">
-                        <span data-id="box-7" class="box" onclick={handleBoxClick}></span>
+                        <span data-id="box-6" class="box" onclick={handleBoxClick}></span>
                     </lightning-layout-item>
                     <lightning-layout-item class="boxStyle bb-0" padding="around-small">
-                        <span data-id="box-8" class="box" onclick={handleBoxClick}></span>
+                        <span data-id="box-7" class="box" onclick={handleBoxClick}></span>
                     </lightning-layout-item>
                     <lightning-layout-item class="boxStyle bb-0 br-0" padding="around-small">
-                        <span data-id="box-9" class="box" onclick={handleBoxClick}></span>
+                        <span data-id="box-8" class="box" onclick={handleBoxClick}></span>
                     </lightning-layout-item>
+                </lightning-layout>
+            </lightning-layout-item>
+            <!-- Congratulations Img -->
+            <lightning-layout-item padding="around-large">
+                <lightning-layout>
+                    
+                </lightning-layout>
+                <lightning-layout>
+                    <img if:true={isGameOver} class="congratsImg" data-id="won-img" src={congrats} alt="Congratulations">
+                </lightning-layout>
+                <lightning-layout>
+                    <lightning-button variant="success" 
+                                    label="Restart" 
+                                    title="Restart" 
+                                    onclick={handleRestart} 
+                                    class="restart slds-align_absolute-center"></lightning-button>
                 </lightning-layout>
             </lightning-layout-item>
         </lightning-layout>
 
-        <!-- Restart -->
-        <lightning-layout class="">
+        <!-- Play Again -->
+        <!-- <lightning-layout class="">
             <lightning-layout-item class="restart slds-align_absolute-center" padding="around-small">
-                <span class="" onclick={handleRestart}>Restart Game</span>
+                <span class="" onclick={handleRestart}>Restart</span>
             </lightning-layout-item>
-        </lightning-layout>
+        </lightning-layout> -->
     </div>
 </template>
