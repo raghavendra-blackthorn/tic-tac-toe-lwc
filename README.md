@@ -15,5 +15,5 @@ Some of the designs are inspired from google
 
 ## Keep supporting and follow my Salesforce Blog
 
-- [Play Game](https://sfdcchampion4u.wordpress.com/)
+- [Play Game](https://vijaykumarkr-dev-ed.my.site.com/sfdcchampion/s/tic-tac-toe-lwc)
 - [Visit My Salesforce Blog](https://sfdcchampion4u.wordpress.com/)
