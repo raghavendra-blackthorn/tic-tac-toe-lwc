@@ -38,9 +38,9 @@
     background-color: rgb(91, 163, 185);
 }
 .box{
-    font-size: 4vw;
-    width: 2em;
-    height: 7.5vw;
+    font-size: 3.5vw;
+    width: 1.8em;
+    height: 6.5vw;
     display: flex;
     justify-content: center;
 }  
@@ -106,11 +106,6 @@ lightning-button.restart {
     .playArea{
         flex-wrap: wrap;
     }
-    .box{
-        font-size: 2em;
-        width: 2em;
-        height: 13vw;
-    }
 }
 /* CSS to apply screens which are below 500px */
 @media screen and (max-width: 500px){
@@ -121,9 +116,9 @@ lightning-button.restart {
 /* CSS to apply screens which are above 200px and below 400px*/
 @media (min-width: 200px) and (max-width: 420px){
     .box{
-        font-size: 1.5em;
-        width: 1em;
-        height: 8vw;
+        font-size: 2.5em;
+        width: 2em;
+        height: 15vw;
     }
 }
 .blog{

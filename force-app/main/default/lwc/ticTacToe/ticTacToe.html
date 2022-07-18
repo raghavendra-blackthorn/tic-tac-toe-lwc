@@ -10,16 +10,19 @@
         <!-- Header -->
         <lightning-layout class="header slds-align_absolute-center">
             <lightning-layout-item padding="around-small">
-                <h1>Welcome! SFDC CHAMPION Game Arena</h1>
+                <h1>Tic Tac Toe</h1>
             </lightning-layout-item>
         </lightning-layout>
 
         <!-- Points Table -->
         <lightning-layout class="slds-align_absolute-center scoreBoard">
-            <lightning-layout-item padding="" class={displayBottomColorForXTurn}>
+            <lightning-layout-item class={displayBottomColorForXTurn}>
                 <span style="padding-left: 1rem;">X</span><span style="padding-left: 9rem;padding-right: 1rem;">{X_Points}</span>
-            </lightning-layout-item>&nbsp;&nbsp;
-            <lightning-layout-item padding="" class={displayBottomColorForOTurn}>
+            </lightning-layout-item>
+            <lightning-layout-item>
+                <span style="padding: 5px;" class="space"> </span>
+            </lightning-layout-item>
+            <lightning-layout-item class={displayBottomColorForOTurn}>
                 <span style="padding-left: 1rem;">O</span><span style="padding-left: 9rem;padding-right: 1rem;">{O_Points}</span>
             </lightning-layout-item>
         </lightning-layout>
@@ -86,15 +89,6 @@
                     <img if:true={isGameOver} class="congratsImg" data-id="won-img" src={congrats} alt="Congratulations">
                 </lightning-layout>
             </lightning-layout-item>
-        </lightning-layout>
-
-        <!-- Footer -->
-        <lightning-layout class="slds-align_absolute-center blog">
-            <lightning-formatted-url value="https://sfdcchampion4u.wordpress.com/" 
-                                        tooltip="https://sfdcchampion4u.wordpress.com/" 
-                                        label="Visit My Salesforce Blog" 
-                                        target="_blank">
-            </lightning-formatted-url>
         </lightning-layout>
     </div>
 </template>
