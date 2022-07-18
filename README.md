@@ -10,7 +10,7 @@ Added additional feature to improve Play area look and feel.
 
 ## Insiration
 
-Logics are inspired from codewithharry</br>
+Some of the Logic is inspired from codewithharry</br>
 Some of the designs are inspired from google
 
 ## Keep supporting and follow my Salesforce Blog
