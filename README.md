@@ -15,4 +15,5 @@ Some of the designs are inspired from google
 
 ## Keep supporting and follow my Salesforce Blog
 
+- [Play Game](https://sfdcchampion4u.wordpress.com/)
 - [Visit My Salesforce Blog](https://sfdcchampion4u.wordpress.com/)
