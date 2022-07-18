@@ -9,13 +9,24 @@
             </lightning-layout-item>
         </lightning-layout>
 
+        <!-- Points Table -->
+        <lightning-layout class="slds-align_absolute-center scoreBoard">
+            <lightning-layout-item padding="" class={displayBottomColorForXTurn}>
+                <span style="padding-left: 1rem;">X</span><span style="padding-left: 9rem;padding-right: 1rem;">{X_Points}</span>
+            </lightning-layout-item>&nbsp;&nbsp;
+            <lightning-layout-item padding="" class={displayBottomColorForOTurn}>
+                <span style="padding-left: 1rem;">O</span><span style="padding-left: 9rem;padding-right: 1rem;">{O_Points}</span>
+            </lightning-layout-item>
+        </lightning-layout>
+
         <!-- Game Info -->
         <lightning-layout class="slds-align_absolute-center gameInfo">
             <lightning-layout-item padding="around-small">
-                <span data-id="player-turn-text"></span>
                 <span if:true={isGameOver}>Game Over: </span>
+                <span if:true={isGameOn}>Start game: </span>
+                <span data-id="player-turn-text">X-turn</span>
                 <span class="turnWon" data-id="player-won"></span>
-                <span if:true={isGameOn}>Start game</span>
+                <span if:true={isGameOver} style="vertical-align: baseline; padding-left: 5px;">WINNER!</span>
             </lightning-layout-item>
         </lightning-layout>
 
@@ -60,26 +71,25 @@
             <!-- Congratulations Img -->
             <lightning-layout-item padding="around-large">
                 <lightning-layout>
-                    
+                    <lightning-button variant="brand"
+                                    label="Restart Game" 
+                                    title="Restart Game" 
+                                    onclick={handleRestart} 
+                                    class="restart slds-align_absolute-center"></lightning-button>
                 </lightning-layout>
                 <lightning-layout>
                     <img if:true={isGameOver} class="congratsImg" data-id="won-img" src={congrats} alt="Congratulations">
                 </lightning-layout>
-                <lightning-layout>
-                    <lightning-button variant="success" 
-                                    label="Restart" 
-                                    title="Restart" 
-                                    onclick={handleRestart} 
-                                    class="restart slds-align_absolute-center"></lightning-button>
-                </lightning-layout>
             </lightning-layout-item>
         </lightning-layout>
 
-        <!-- Play Again -->
-        <!-- <lightning-layout class="">
-            <lightning-layout-item class="restart slds-align_absolute-center" padding="around-small">
-                <span class="" onclick={handleRestart}>Restart</span>
-            </lightning-layout-item>
-        </lightning-layout> -->
+        <!-- Footer -->
+        <lightning-layout class="slds-align_absolute-center blog">
+            <lightning-formatted-url value="https://sfdcchampion4u.wordpress.com/" 
+                                        tooltip="https://sfdcchampion4u.wordpress.com/" 
+                                        label="Visit My Salesforce Blog" 
+                                        target="_blank">
+            </lightning-formatted-url>
+        </lightning-layout>
     </div>
 </template>
