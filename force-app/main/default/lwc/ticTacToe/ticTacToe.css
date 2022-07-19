@@ -10,7 +10,7 @@
 .pointsTable{
     color: white; 
     font-size: 20px;
-    font-family: 'Baloo Bhai 2', cursive;
+    /* font-family: 'Baloo Bhai 2', cursive; */
     border: 0.08px solid #aba6a6;
     border-radius: 10px;
 }
@@ -21,7 +21,7 @@
 .gameInfo{
     color: white;
     font-size: 1rem;
-    font-family: 'Baloo Bhai 2', cursive;
+    /* font-family: 'Baloo Bhai 2', cursive; */
 }
 .playArea{
     background-color: rgb(89, 174, 200);
@@ -87,13 +87,13 @@
 }
 .turnWon{
     font-size: 47px;
-    font-family: 'Baloo Bhai 2', cursive;
+    /* font-family: 'Baloo Bhai 2', cursive; */
     color: #e7f400;
     vertical-align: -webkit-baseline-middle;
 }
 .restart{
     background-color: #abc0e4;
-    font-family: 'Baloo Bhai 2', cursive;
+    /* font-family: 'Baloo Bhai 2', cursive; */
     border-radius: 8px;
     font-size: 1rem;
 }
