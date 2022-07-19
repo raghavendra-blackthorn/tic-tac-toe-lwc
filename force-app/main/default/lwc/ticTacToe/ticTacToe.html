@@ -9,6 +9,9 @@
 
         <!-- Header -->
         <lightning-layout class="header slds-align_absolute-center">
+            <!-- <lightning-layout-item style="margin-right: 34%;width: 4rem;">
+                <img class="Astroimg" data-id="astro-img" src={Astro_img} alt="Astro">
+            </lightning-layout-item> -->
             <lightning-layout-item padding="around-small">
                 <h1>Tic Tac Toe</h1>
             </lightning-layout-item>
@@ -33,7 +36,7 @@
                 <span if:true={isGameOver}>Game Over: </span>
                 <span if:true={isGameOn}>Start game: </span>
                 <span data-id="player-turn-text">X-turn</span>
-                <span class="turnWon" data-id="player-won"></span>
+                <span class="winnerTitle" data-id="player-won"></span>
                 <span if:true={isGameOver} style="vertical-align: baseline; padding-left: 5px;">WINNER!</span>
             </lightning-layout-item>
         </lightning-layout>
@@ -42,6 +45,7 @@
         <lightning-layout class="playArea slds-align_absolute-center">
             <!-- Boxes -->
             <lightning-layout-item padding="around-large">
+                <div class="crossline"></div>
                 <lightning-layout>
                     <lightning-layout-item class="boxStyle bt-0 bl-0" padding="around-small">
                         <span data-id="box-0" class="box" onclick={handleBoxClick}></span>

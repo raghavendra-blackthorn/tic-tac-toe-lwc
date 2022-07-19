@@ -1,21 +1,23 @@
 import { LightningElement } from 'lwc';
 import congratsImg from '@salesforce/resourceUrl/congrats1'; 
+import AstroImg from '@salesforce/resourceUrl/Astro_img'; 
 
 export default class TicTacToe extends LightningElement {
-
+    
     turn = 'X'
     isXturn = true
     isGameOn = true
     isGameOver = false
-    winCombination = [[0, 1, 2],
-                        [3, 4, 5],
-                        [6, 7, 8],
-                        [0, 3, 6],
-                        [1, 4, 7],
-                        [2, 5, 8],
-                        [0, 4, 8],
-                        [2, 4, 6]]
-    congrats = congratsImg;
+    winCombination = [[0, 1, 2, 3, 5, 0],
+                        [3, 4, 5, 3, 14, 0],                       
+                        [6, 7, 8, 3, 23, 0],
+                        [0, 3, 6, -6, 14, 90],
+                        [1, 4, 7, 3.3, 14, 90],
+                        [2, 5, 8, 12.6, 14, 90],
+                        [0, 4, 8, 3.6, 14, 45],
+                        [2, 4, 6, 3.6, 14, 45]]
+    congrats = congratsImg
+    Astro_img = AstroImg
     isLoading = false
     X_Points = 0
     O_Points = 0
@@ -63,12 +65,12 @@ export default class TicTacToe extends LightningElement {
     
     // Check for winning Combination
     checkWinner(){
-        this.winCombination.forEach(element => {
-            if(this.template.querySelector('[data-id=box-'+element[0]+']').textContent
-                && this.template.querySelector('[data-id=box-'+element[1]+']').textContent
-                && this.template.querySelector('[data-id=box-'+element[2]+']').textContent
-                && (this.template.querySelector('[data-id=box-'+element[0]+']').textContent == this.template.querySelector('[data-id=box-'+element[1]+']').textContent)
-                && (this.template.querySelector('[data-id=box-'+element[1]+']').textContent == this.template.querySelector('[data-id=box-'+element[2]+']').textContent)){
+        this.winCombination.forEach(e => {
+            if(this.template.querySelector('[data-id=box-'+e[0]+']').textContent
+                && this.template.querySelector('[data-id=box-'+e[1]+']').textContent
+                && this.template.querySelector('[data-id=box-'+e[2]+']').textContent
+                && (this.template.querySelector('[data-id=box-'+e[0]+']').textContent == this.template.querySelector('[data-id=box-'+e[1]+']').textContent)
+                && (this.template.querySelector('[data-id=box-'+e[1]+']').textContent == this.template.querySelector('[data-id=box-'+e[2]+']').textContent)){
                     // Game Over true
                     this.isGameOver = true;
                     // Remove player-won value text
@@ -76,7 +78,9 @@ export default class TicTacToe extends LightningElement {
                     // Remove Next turn value text
                     this.template.querySelector('[data-id=player-turn-text]').textContent = '';
                     // add pulse CSS to highligh matched turn
-                    this.addPulseCssForMatchedPath(element);
+                    this.addPulseCssForMatchedPath(e);
+                    // add CSS to cross line 
+                    this.displayCrossLine(e);
                     // Update players Score
                     this.updatePoints();
                     
@@ -84,10 +88,14 @@ export default class TicTacToe extends LightningElement {
         });
     }
 
-    addPulseCssForMatchedPath(element){
-        this.template.querySelector('[data-id=box-'+element[0]+']').classList.add('boxPulse');
-        this.template.querySelector('[data-id=box-'+element[1]+']').classList.add('boxPulse');
-        this.template.querySelector('[data-id=box-'+element[2]+']').classList.add('boxPulse');
+    addPulseCssForMatchedPath(e){
+        this.template.querySelector('[data-id=box-'+e[0]+']').classList.add('boxPulse');
+        this.template.querySelector('[data-id=box-'+e[1]+']').classList.add('boxPulse');
+        this.template.querySelector('[data-id=box-'+e[2]+']').classList.add('boxPulse');
+    }
+
+    displayCrossLine(e){
+        this.template.querySelector('[class=crossline]').style.transform = `translate(${e[3]}vw, ${3[4]}vw) rotate(${e[5]}deg)`;
     }
 
     updatePoints(){

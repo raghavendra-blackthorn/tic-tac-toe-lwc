@@ -82,14 +82,30 @@
 }
 .congratsImg{
     width: 300px;
-    transition: width 2s ease-in-out;
     padding-top: 2rem;
+    /* transform: rotate(-45deg) scale(1); */
+    animation: imgPulse 2s linear;
 }
-.turnWon{
-    font-size: 47px;
-    /* font-family: 'Baloo Bhai 2', cursive; */
+@keyframes imgPulse{
+    0% {
+        transform: rotate(0deg) scale(0);
+        opacity: 0.8;
+    }
+    /* 100% {
+        transform: rotate(0deg) scale(1.5);
+        opacity: 1;
+    } */
+}
+.winnerTitle{
+    font-size: 42px;
     color: #e7f400;
-    vertical-align: -webkit-baseline-middle;
+    vertical-align: middle;
+    padding-left: 10px;
+}
+.crossline{
+    background-color: black;
+    width: 15rem;
+    height: 3px;
 }
 .restart{
     background-color: #abc0e4;
