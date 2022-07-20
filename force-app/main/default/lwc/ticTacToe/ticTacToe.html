@@ -10,13 +10,18 @@
         <!-- Header -->
         <lightning-layout class="header">
             <lightning-layout-item>
-                <img class="astroimg" data-id="astro-img" src={Astro_img} alt="Astro">
+                <div class="imgcontainer">
+                    <a href="#">
+                        <img class="astroimg" data-id="astro-img" src={Astro_img} alt="Astro">
+                        <span>Hi...</span>
+                    </a>
+                </div>
             </lightning-layout-item>
             <lightning-layout-item class="slds-align_absolute-center" padding="around-small" style="padding-right: 6vw;">
                 <h1>Tic Tac Toe</h1>
             </lightning-layout-item>
         </lightning-layout>
-
+        
         <!-- Points Table -->
         <lightning-layout class="slds-align_absolute-center scoreBoard">
             <lightning-layout-item class={displayBottomColorForXTurn}>

@@ -1,3 +1,22 @@
+div.imgcontainer {
+    position: relative;
+}
+div.imgcontainer a {
+    color: black;
+}
+div.imgcontainer a span {
+    visibility: hidden;
+    position: absolute;
+    background: #ffffff;
+    width: 3em;
+    font-size: 1.8vw;
+    padding: 0.3rem;
+    line-height: 1;
+    border-radius: 1rem;
+}
+div.imgcontainer a:hover span {
+    visibility: visible;
+}
 .main{
     background-color: #202124;
 }
@@ -150,6 +169,9 @@ lightning-button.restart {
     }
     .astroimg{
         height: 15vw;
+    }
+    div.imgcontainer a span {
+        font-size: 3.8vw;
     }
 }
 /* CSS to apply screens which are below 500px */
