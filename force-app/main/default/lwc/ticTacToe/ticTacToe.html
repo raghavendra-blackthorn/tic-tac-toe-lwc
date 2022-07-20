@@ -40,12 +40,22 @@
                 <span if:true={isGameOver} style="vertical-align: baseline; padding-left: 5px;">WINNER!</span>
             </lightning-layout-item>
         </lightning-layout>
-
+        
         <!-- Game Container -->
-        <lightning-layout class="playArea slds-align_absolute-center">
+        <lightning-layout class="body">
+            <!-- Select Player Combobox -->
+            <lightning-layout-item flexibility="auto, no-grow" padding="around-small">
+                <lightning-combobox name="Play Against"
+                                    label="Play Against"
+                                    value={playAgainst}
+                                    placeholder="Select Option"
+                                    options={options}
+                                    onchange={handleChangePlayAgainst}>
+                    </lightning-combobox>
+            </lightning-layout-item>
             <!-- Boxes -->
-            <lightning-layout-item padding="around-large">
-                <div class="crossline"></div>
+            <lightning-layout-item class="playArea" style="position: relative;" padding="around-small">
+                <span class="crossline" data-id="line"></span>
                 <lightning-layout>
                     <lightning-layout-item class="boxStyle bt-0 bl-0" padding="around-small">
                         <span data-id="box-0" class="box" onclick={handleBoxClick}></span>
@@ -81,7 +91,7 @@
                 </lightning-layout>
             </lightning-layout-item>
             <!-- Congratulations Img -->
-            <lightning-layout-item padding="around-large">
+            <lightning-layout-item class="playArea" padding="around-small">
                 <lightning-layout>
                     <lightning-button variant="brand"
                                     label="Restart Game" 
@@ -90,7 +100,7 @@
                                     class="restart slds-align_absolute-center"></lightning-button>
                 </lightning-layout>
                 <lightning-layout>
-                    <img if:true={isGameOver} class="congratsImg" data-id="won-img" src={congrats} alt="Congratulations">
+                    <img class="congratsImg" data-id="won-img" src={congrats} alt="Congratulations">
                 </lightning-layout>
             </lightning-layout-item>
         </lightning-layout>

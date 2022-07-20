@@ -23,8 +23,10 @@
     font-size: 1rem;
     /* font-family: 'Baloo Bhai 2', cursive; */
 }
-.playArea{
+.body{
     background-color: rgb(89, 174, 200);
+}
+.playArea{
     margin: auto;
     font-family: 'roboto', san-serif;
 }
@@ -43,6 +45,7 @@
     height: 6.5vw;
     display: flex;
     justify-content: center;
+    padding-top: 10px;
 }  
 .boxPulse{
     transform: rotate(-45deg) scale(1);
@@ -68,6 +71,12 @@
 .O-turn-color{
     color: white;
 }
+.X-turn-line-color{
+    background-color: #545454;
+}
+.O-turn-line-color{
+    background-color: white;
+}
 .bt-0{
     border-top: 0;
 } 
@@ -81,20 +90,9 @@
     border-bottom: 0;
 }
 .congratsImg{
-    width: 300px;
+    width: 0;
     padding-top: 2rem;
-    /* transform: rotate(-45deg) scale(1); */
-    animation: imgPulse 2s linear;
-}
-@keyframes imgPulse{
-    0% {
-        transform: rotate(0deg) scale(0);
-        opacity: 0.8;
-    }
-    /* 100% {
-        transform: rotate(0deg) scale(1.5);
-        opacity: 1;
-    } */
+    transition: width 1s ease-in-out;
 }
 .winnerTitle{
     font-size: 42px;
@@ -104,8 +102,10 @@
 }
 .crossline{
     background-color: black;
-    width: 15rem;
     height: 3px;
+    width: 0;
+    position: absolute;
+    transition: width 1s ease-in-out;
 }
 .restart{
     background-color: #abc0e4;
@@ -118,9 +118,15 @@ lightning-button.restart {
     --sds-c-button-text-color: #f4f7f9;
 }
 /* CSS to apply screens which are below 400px */
-@media screen and (max-width: 420px){
-    .playArea{
+@media screen and (max-width: 500px){
+    .body{
         flex-wrap: wrap;
+    }
+}
+/* CSS to apply screens which are below 800px */
+@media screen and (max-width: 800px){
+    .box{
+        padding-top: 6px;
     }
 }
 /* CSS to apply screens which are below 500px */

@@ -15,7 +15,10 @@ export default class TicTacToe extends LightningElement {
                         [1, 4, 7, 3.3, 14, 90],
                         [2, 5, 8, 12.6, 14, 90],
                         [0, 4, 8, 3.6, 14, 45],
-                        [2, 4, 6, 3.6, 14, 45]]
+                        [2, 4, 6, 3.6, 14, -45]]
+    options = [{ label: 'Friend', value: 'Friend' },
+                { label: 'Computer', value: 'Computer' }]
+    playAgainst = 'Computer';
     congrats = congratsImg
     Astro_img = AstroImg
     isLoading = false
@@ -34,6 +37,11 @@ export default class TicTacToe extends LightningElement {
     // add border bottom color for O-turn
     get displayBottomColorForOTurn(){
         return this.turn === "O" ? "borderBottomColor pointsTable" : "pointsTable";
+    }
+
+    handleChangePlayAgainst(event){
+        this.playAgainst = event.detail.value;
+        this.handleRestart();
     }
 
     handleBoxClick(event){
@@ -79,6 +87,8 @@ export default class TicTacToe extends LightningElement {
                     this.template.querySelector('[data-id=player-turn-text]').textContent = '';
                     // add pulse CSS to highligh matched turn
                     this.addPulseCssForMatchedPath(e);
+                    //Congrats Img
+                    this.displayCongratsImg();
                     // add CSS to cross line 
                     this.displayCrossLine(e);
                     // Update players Score
@@ -94,8 +104,14 @@ export default class TicTacToe extends LightningElement {
         this.template.querySelector('[data-id=box-'+e[2]+']').classList.add('boxPulse');
     }
 
+    displayCongratsImg(){
+        this.template.querySelector('[class=congratsImg]').style.width = `300px`;
+    }
+
     displayCrossLine(e){
-        this.template.querySelector('[class=crossline]').style.transform = `translate(${e[3]}vw, ${3[4]}vw) rotate(${e[5]}deg)`;
+        this.template.querySelector('[class=crossline]').style.width = `15rem`;
+        this.template.querySelector('[class=crossline]').style.transform = `translate(${e[3]}vw, ${e[4]}vw) rotate(${e[5]}deg)`;
+        // this.template.querySelector('[class=line]').classList.add(this.turn+'-turn-line-color');
     }
 
     updatePoints(){
@@ -106,7 +122,12 @@ export default class TicTacToe extends LightningElement {
     checkDrawMatch(){
         // for (let index = 0; index < 9; index++) {
         //     // check all boxes are filled
-        //     this.template.querySelector('[data-id=box-'+index+']').textContent = '';
+        //     if(this.template.querySelector('[data-id=box-'+index+']').textContent){
+        //         console.log();
+        //     }
+        // }
+        // if(){
+
         // }
     }
 
@@ -117,6 +138,10 @@ export default class TicTacToe extends LightningElement {
         this.template.querySelector('[data-id=player-won]').textContent = '';
         // Remove Next turn value text
         this.template.querySelector('[data-id=player-turn-text]').textContent = this.turn+' turn';
+        // hide congrats img
+        this.template.querySelector('[class=congratsImg]').style.width = `0`;
+        // hide cross line
+        this.template.querySelector('[class=crossline]').style.width = `0`;
         for (let index = 0; index < 9; index++) {
             // Remove X / O value from all boxes
             this.template.querySelector('[data-id=box-'+index+']').textContent = '';
