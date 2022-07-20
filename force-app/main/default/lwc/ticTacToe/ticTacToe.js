@@ -39,11 +39,13 @@ export default class TicTacToe extends LightningElement {
         return this.turn === "O" ? "borderBottomColor pointsTable" : "pointsTable";
     }
 
+    // Play Against Combox handleChange
     handleChangePlayAgainst(event){
         this.playAgainst = event.detail.value;
         this.handleRestart();
     }
 
+    // handleClick on turn change
     handleBoxClick(event){
         this.isGameOn = false;
         // Current box id
@@ -131,6 +133,7 @@ export default class TicTacToe extends LightningElement {
         // }
     }
 
+    // handle Restart on "Restart Game" and "Play Against" 
     handleRestart(){
         this.isLoading = true;
         this.isGameOver = false;

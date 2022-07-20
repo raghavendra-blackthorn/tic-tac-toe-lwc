@@ -8,11 +8,11 @@
         <lightning-spinner if:true={isLoading} alternative-text="Loading" size="medium"></lightning-spinner>
 
         <!-- Header -->
-        <lightning-layout class="header slds-align_absolute-center">
-            <!-- <lightning-layout-item style="margin-right: 34%;width: 4rem;">
-                <img class="Astroimg" data-id="astro-img" src={Astro_img} alt="Astro">
-            </lightning-layout-item> -->
-            <lightning-layout-item padding="around-small">
+        <lightning-layout class="header">
+            <lightning-layout-item>
+                <img class="astroimg" data-id="astro-img" src={Astro_img} alt="Astro">
+            </lightning-layout-item>
+            <lightning-layout-item class="slds-align_absolute-center" padding="around-small" style="padding-right: 6vw;">
                 <h1>Tic Tac Toe</h1>
             </lightning-layout-item>
         </lightning-layout>
