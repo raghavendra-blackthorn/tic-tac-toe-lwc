@@ -9,6 +9,7 @@
 
         <!-- Header -->
         <lightning-layout class="header">
+            <!-- Astro -->
             <lightning-layout-item>
                 <div class="imgcontainer">
                     <a href="#">
@@ -17,9 +18,11 @@
                     </a>
                 </div>
             </lightning-layout-item>
+            <!-- Title -->
             <lightning-layout-item class="slds-align_absolute-center" padding="around-small" style="padding-right: 6vw;">
                 <h1>Tic Tac Toe</h1>
             </lightning-layout-item>
+            <!-- Speaker -->
             <lightning-layout-item onclick={handleMute}>
                 <lightning-icon if:false={muted} icon-name="utility:volume_high" 
                                     alternative-text="UnMute" 

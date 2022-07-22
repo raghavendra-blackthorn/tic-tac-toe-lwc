@@ -30,6 +30,10 @@ export default class TicTacToe extends LightningElement {
     options = [{ label: 'Friend', value: 'Friend' },
                 { label: 'Computer', value: 'Computer' }]
     playAgainst = 'Computer';
+    // play with computer
+    computerturn = false
+    turnedbox = []
+    unturnedbox = [0, 1, 2, 3, 4, 5, 6, 7, 8]
     // img
     congrats = congratsImg
     Astro_img = AstroImg
@@ -68,6 +72,8 @@ export default class TicTacToe extends LightningElement {
     // Play Against Combox handleChange
     handleChangePlayAgainst(event){
         this.playAgainst = event.detail.value;
+        this.computerturn = this.playAgainst == 'Computer' ? true : false;
+        this.X_Points = this.O_Points = 0;
         this.handleRestart();
     }
 
@@ -76,33 +82,62 @@ export default class TicTacToe extends LightningElement {
         this.isGameOn = true;
         // Current box id
         let boxId = event.currentTarget.getAttribute("data-Id");
+        let boxindex =  parseInt(boxId.split('-')[1]);
+        // 
+        this.computerturn = true;
         // Below action only for empty box and GameOver is false
-        if(!this.template.querySelector('[data-id='+boxId+']').textContent
+        if(!this.template.querySelector('[data-id=box-'+boxindex+']').textContent
             && !this.isGameOver){
-                // play sound on each turn 
-                this.playTrack(this.turn_change_track);
-                // Display Turn Value inside box
-                // let displayTurnImg = this.turn === 'X' ? this.X_icon : this.O_icon;
-                // text in a span
-                this.template.querySelector('[data-id='+boxId+']').textContent = this.turn;
-                // image in a span
-                // this.template.querySelector('[data-id='+boxId+']').innerHTML = "<img src="+displayTurnImg+" class="+this.turn+">";
-                // add CSS to turn color based on X/O
-                this.template.querySelector('[data-id='+boxId+']').classList.add(this.turn+'-turn-color')
-                // Check for winning Combination
-                this.checkWinner();
-                // Change turn value 
-                this.swapTurn();
-                // Avoid adding CSS for Next turn without onclick
-                this.template.querySelector('[data-id='+boxId+']').classList.remove(this.turn+'-turn-color')
-                // to avoid showing Next trun after Game Over
-                if(!this.isGameOver){
-                    // checkDrawMatch
-                    this.checkDrawMatch();
-                    this.template.querySelector('[data-id=player-turn-text]').textContent = this.turn+' turn';
-                    // this.template.querySelector('[data-id=won-img]').classList.add('addWidth')
-                }
+                this.displayTurnVal(boxindex);
         }
+    }
+
+    displayTurnVal(boxindex){
+        // play sound on each turn 
+        this.playTrack(this.turn_change_track);
+        // Display Turn Value inside box
+        // let displayTurnImg = this.turn === 'X' ? this.X_icon : this.O_icon;
+        // text in a span
+        this.template.querySelector('[data-id=box-'+boxindex+']').textContent = this.turn;
+        // image in a span
+        // this.template.querySelector('[data-id='+boxId+']').innerHTML = "<img src="+displayTurnImg+" class="+this.turn+">";
+        // add CSS to turn color based on X/O
+        this.template.querySelector('[data-id=box-'+boxindex+']').classList.add(this.turn+'-turn-color')
+        // Check for winning Combination
+        this.checkWinner();
+        // Change turn value 
+        this.swapTurn();
+        // Avoid adding CSS for Next turn without onclick
+        this.template.querySelector('[data-id=box-'+boxindex+']').classList.remove(this.turn+'-turn-color')
+        // to avoid showing Next trun after Game Over
+        if(!this.isGameOver){
+            // checkDrawMatch
+            this.checkDrawMatch();
+            this.template.querySelector('[data-id=player-turn-text]').textContent = this.turn+' turn';
+            // this.template.querySelector('[data-id=won-img]').classList.add('addWidth')
+        }
+        // Computer turn
+        if(this.playAgainst == 'Computer'
+            && this.computerturn){
+                this.computerturn = false;
+                this.turnedbox.push(boxindex);
+                console.log('turnedbox: ', this.turnedbox); 
+                const index = this.unturnedbox.indexOf(boxindex);
+                if (index > -1) {
+                    this.unturnedbox.splice(index, 1); 
+                }
+                console.log('unturnedbox: ', this.unturnedbox); 
+                boxindex = this.getRandomIndex(this.unturnedbox);
+                this.displayTurnVal(boxindex);
+        }
+    }
+
+    // get a random index from an unturnedbox array
+    getRandomIndex(array) {
+        const randomboxIndex = Math.floor(Math.random() * array.length);
+        console.log('randomboxIndex: ', randomboxIndex); 
+        const indexval = array[randomboxIndex];
+        return indexval;
     }
     
     // Check for winning Combination
