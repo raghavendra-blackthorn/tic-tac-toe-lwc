@@ -20,6 +20,14 @@
             <lightning-layout-item class="slds-align_absolute-center" padding="around-small" style="padding-right: 6vw;">
                 <h1>Tic Tac Toe</h1>
             </lightning-layout-item>
+            <lightning-layout-item onclick={handleMute}>
+                <lightning-icon if:false={muted} icon-name="utility:volume_high" 
+                                    alternative-text="UnMute" 
+                                    title="UnMute"></lightning-icon>
+                <lightning-icon if:true={muted} icon-name="utility:volume_off" 
+                                    alternative-text="Mute!" 
+                                    title="Mute"></lightning-icon>
+            </lightning-layout-item>
         </lightning-layout>
         
         <!-- Points Table -->
@@ -39,7 +47,7 @@
         <lightning-layout class="slds-align_absolute-center gameInfo">
             <lightning-layout-item padding="around-small">
                 <span if:true={isGameOver}>Game Over: </span>
-                <span if:true={isGameOn}>Start game: </span>
+                <span if:false={isGameOn}>Start game: </span>
                 <span data-id="player-turn-text">X-turn</span>
                 <span class="winnerTitle" data-id="player-won"></span>
                 <span if:true={isGameOver} style="vertical-align: baseline; padding-left: 5px;">WINNER!</span>

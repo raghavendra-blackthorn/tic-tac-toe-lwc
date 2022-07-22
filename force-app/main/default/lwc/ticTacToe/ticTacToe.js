@@ -1,13 +1,23 @@
 import { LightningElement } from 'lwc';
+// Resource-Image
 import congratsImg from '@salesforce/resourceUrl/congrats1'; 
-import AstroImg from '@salesforce/resourceUrl/Astro_img'; 
+import AstroImg from '@salesforce/resourceUrl/Astro_img';
+import Xicon from '@salesforce/resourceUrl/X_icon';  
+import Oicon from '@salesforce/resourceUrl/O_icon';
+// Resource-Track
+import turnChangeTrack from '@salesforce/resourceUrl/turn_change_track';
+import winnerTrack from '@salesforce/resourceUrl/winner_track';
+import restartTrack from '@salesforce/resourceUrl/restart_track'; 
 
 export default class TicTacToe extends LightningElement {
     
+    // default turn 
     turn = 'X'
-    isXturn = true
-    isGameOn = true
+    // show/hide Start Game text
+    isGameOn = false
+    // game over bool
     isGameOver = false
+    // turn winning combination & line angle 
     winCombination = [[0, 1, 2, 3, 5, 0],
                         [3, 4, 5, 3, 14, 0],                       
                         [6, 7, 8, 3, 23, 0],
@@ -16,17 +26,28 @@ export default class TicTacToe extends LightningElement {
                         [2, 5, 8, 12.6, 14, 90],
                         [0, 4, 8, 3.6, 14, 45],
                         [2, 4, 6, 3.6, 14, -45]]
+    // options
     options = [{ label: 'Friend', value: 'Friend' },
                 { label: 'Computer', value: 'Computer' }]
     playAgainst = 'Computer';
+    // img
     congrats = congratsImg
     Astro_img = AstroImg
+    X_icon = Xicon
+    O_icon = Oicon
+    //track
+    turn_change_track = turnChangeTrack;
+    winner_track = winnerTrack;
+    restart_track = restartTrack;
+    muted = false
+    // spinner
     isLoading = false
+    // points
     X_Points = 0
     O_Points = 0
 
     // change to next turn value
-    changeTurn(){
+    swapTurn(){
         this.turn = this.turn === "X" ? "O" : "X";
     }
 
@@ -39,6 +60,11 @@ export default class TicTacToe extends LightningElement {
         return this.turn === "O" ? "borderBottomColor pointsTable" : "pointsTable";
     }
 
+    // Shuffle Mute and unMute
+    handleMute(){
+        this.muted = !this.muted;
+    }
+
     // Play Against Combox handleChange
     handleChangePlayAgainst(event){
         this.playAgainst = event.detail.value;
@@ -47,20 +73,26 @@ export default class TicTacToe extends LightningElement {
 
     // handleClick on turn change
     handleBoxClick(event){
-        this.isGameOn = false;
+        this.isGameOn = true;
         // Current box id
         let boxId = event.currentTarget.getAttribute("data-Id");
         // Below action only for empty box and GameOver is false
         if(!this.template.querySelector('[data-id='+boxId+']').textContent
             && !this.isGameOver){
+                // play sound on each turn 
+                this.playTrack(this.turn_change_track);
                 // Display Turn Value inside box
+                // let displayTurnImg = this.turn === 'X' ? this.X_icon : this.O_icon;
+                // text in a span
                 this.template.querySelector('[data-id='+boxId+']').textContent = this.turn;
+                // image in a span
+                // this.template.querySelector('[data-id='+boxId+']').innerHTML = "<img src="+displayTurnImg+" class="+this.turn+">";
                 // add CSS to turn color based on X/O
                 this.template.querySelector('[data-id='+boxId+']').classList.add(this.turn+'-turn-color')
                 // Check for winning Combination
                 this.checkWinner();
                 // Change turn value 
-                this.changeTurn();
+                this.swapTurn();
                 // Avoid adding CSS for Next turn without onclick
                 this.template.querySelector('[data-id='+boxId+']').classList.remove(this.turn+'-turn-color')
                 // to avoid showing Next trun after Game Over
@@ -95,6 +127,8 @@ export default class TicTacToe extends LightningElement {
                     this.displayCrossLine(e);
                     // Update players Score
                     this.updatePoints();
+                    // play winner sound track
+                    this.playTrack(this.winner_track);
                     
             }
         });
@@ -137,6 +171,8 @@ export default class TicTacToe extends LightningElement {
     handleRestart(){
         this.isLoading = true;
         this.isGameOver = false;
+        // Play restart track
+        this.playTrack(this.restart_track);
         // Remove player-won value text
         this.template.querySelector('[data-id=player-won]').textContent = '';
         // Remove Next turn value text
@@ -152,6 +188,11 @@ export default class TicTacToe extends LightningElement {
             this.template.querySelector('[data-id=box-'+index+']').classList.remove('boxPulse');
         }
         this.isLoading = false;
+    }
+
+    // Play track sound
+    playTrack(trackValue){
+        this.muted ? '' :  new Audio(trackValue).play();
     }
     
 }
