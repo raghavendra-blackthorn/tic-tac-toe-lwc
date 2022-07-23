@@ -1,20 +1,19 @@
 div.imgcontainer {
     position: relative;
 }
-div.imgcontainer a {
+div.imgcontainer p {
     color: white;
 }
-div.imgcontainer a span {
+div.imgcontainer p span {
     visibility: hidden;
     position: absolute;
     /* background: #ffffff; */
-    width: 3em;
+    width: 16vw;
     font-size: 1.8vw;
     padding: 0.3rem;
     line-height: 1;
-    border-radius: 1rem;
 }
-div.imgcontainer a:hover span {
+div.imgcontainer p:hover span {
     visibility: visible;
 }
 .main{
@@ -155,7 +154,7 @@ lightning-button.restart {
 	--sds-c-button-brand-color-background: rgb(1 118 211);
     --sds-c-button-text-color: #f4f7f9;
 }
-/* CSS to apply screens which are below 400px */
+/* CSS to apply screens which are below 500px */
 @media screen and (max-width: 500px){
     .body{
         flex-wrap: wrap;
