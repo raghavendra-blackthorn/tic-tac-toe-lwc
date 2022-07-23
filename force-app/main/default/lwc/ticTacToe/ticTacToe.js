@@ -85,11 +85,13 @@ export default class TicTacToe extends LightningElement {
         // Current box id
         let boxId = event.currentTarget.getAttribute("data-Id");
         let boxindex =  parseInt(boxId.split('-')[1]);
-        // 
-        this.computerturn = true;
         // Below action only for empty box and GameOver is false
         if(!this.template.querySelector('[data-id=box-'+boxindex+']').textContent
-            && !this.isGameOver){
+            && !this.isGameOver
+            || (this.playAgainst == 'Computer'
+            && !this.computerturn)){
+                // computer turn if this.playAgainst == 'Computer'
+                this.computerturn = true;
                 this.displayTurnVal(boxindex);
         }
     }
@@ -120,18 +122,22 @@ export default class TicTacToe extends LightningElement {
             // Computer turn
             if(this.playAgainst == 'Computer'
                 && this.computerturn){
-                    this.computerturn = false;
-                    this.turnedbox.push(boxindex);
-                    // remove manually selected box index
-                    this.getEmptyBoxIndex(boxindex);
-                    console.log('turnedbox: ', this.turnedbox); 
-                    boxindex = this.getRandomIndex(this.unturnedbox);
-                    console.log('boxindex: ', boxindex); 
-                    // remove manually selected box index
-                    this.getEmptyBoxIndex(boxindex);
-                    console.log('unturnedbox: ', this.unturnedbox); 
-                    // Call method to select Next turn 
-                    this.displayTurnVal(boxindex);
+                    setTimeout(() => {
+                        // not to make computer turn until next manual turn
+                        this.computerturn = false;
+                        this.turnedbox.push(boxindex);
+                        // remove manually selected box index
+                        this.getEmptyBoxIndex(boxindex);
+                        console.log('turnedbox: ', this.turnedbox); 
+                        // get random index for computer turn
+                        boxindex = this.getRandomIndex(this.unturnedbox);
+                        console.log('boxindex: ', boxindex); 
+                        // remove manually selected box index
+                        this.getEmptyBoxIndex(boxindex);
+                        console.log('unturnedbox: ', this.unturnedbox); 
+                        // Call displayTurnVal method to select Next turn 
+                        this.displayTurnVal(boxindex); 
+                    }, 500);
             }
         }
     }
