@@ -18,12 +18,15 @@ export default class TicTacToe extends LightningElement {
     // game over bool
     isGameOver = false
     // turn winning combination & line angle 
-    winCombination = [[0, 1, 2, 3, 5, 0],
+    winCombination = [// rows
+                        [0, 1, 2, 3, 5, 0],
                         [3, 4, 5, 3, 14, 0],                       
                         [6, 7, 8, 3, 23, 0],
+                        // columns
                         [0, 3, 6, -6, 14, 90],
                         [1, 4, 7, 3.3, 14, 90],
                         [2, 5, 8, 12.6, 14, 90],
+                        // diagonal
                         [0, 4, 8, 3.6, 14, 45],
                         [2, 4, 6, 3.6, 14, -45]]
     // options
@@ -216,15 +219,13 @@ export default class TicTacToe extends LightningElement {
     }
 
     checkDrawMatch(){
-        // for (let index = 0; index < 9; index++) {
-        //     // check all boxes are filled
-        //     if(this.template.querySelector('[data-id=box-'+index+']').textContent){
-        //         console.log();
-        //     }
-        // }
-        // if(){
-
-        // }
+        var draw = 0
+        this.template.querySelectorAll('.box').forEach(element => {
+            if(element.textContent) draw++;
+        });
+        if(draw == 9){
+            this.template.querySelector('[data-id=player-won]').textContent = 'Draw';
+        }
     }
 
     // handle Restart on "Restart Game" and "Play Against" 
