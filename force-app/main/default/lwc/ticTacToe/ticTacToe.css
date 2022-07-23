@@ -2,12 +2,12 @@ div.imgcontainer {
     position: relative;
 }
 div.imgcontainer a {
-    color: black;
+    color: white;
 }
 div.imgcontainer a span {
     visibility: hidden;
     position: absolute;
-    background: #ffffff;
+    /* background: #ffffff; */
     width: 3em;
     font-size: 1.8vw;
     padding: 0.3rem;
@@ -130,7 +130,6 @@ div.imgcontainer a:hover span {
 }
 .congratsImg{
     width: 0;
-    padding-top: 2rem;
     transition: width 1s ease-in-out;
 }
 .winnerTitle{
