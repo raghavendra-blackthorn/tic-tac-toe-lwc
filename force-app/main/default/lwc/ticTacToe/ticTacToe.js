@@ -126,9 +126,10 @@ export default class TicTacToe extends LightningElement {
         if(!this.isGameOver){
             // play sound on each turn 
             this.playTrack(this.turn_change_track);
+            // Next turn value on screen
+            this.template.querySelector('[data-id=player-turn-text]').textContent = this.turn+' turn';
             // checkDrawMatch
             this.checkDrawMatch();
-            this.template.querySelector('[data-id=player-turn-text]').textContent = this.turn+' turn';
             // this.template.querySelector('[data-id=won-img]').classList.add('addWidth')
             // Computer turn
             if(this.playAgainst.includes('Computer')
@@ -224,6 +225,8 @@ export default class TicTacToe extends LightningElement {
             if(element.textContent) draw++;
         });
         if(draw == 9){
+            // Remove Next turn value text
+            this.template.querySelector('[data-id=player-turn-text]').textContent = '';
             this.template.querySelector('[data-id=player-won]').textContent = 'Draw';
         }
     }
