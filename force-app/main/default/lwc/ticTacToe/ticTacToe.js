@@ -96,11 +96,11 @@ export default class TicTacToe extends LightningElement {
         let boxId = event.currentTarget.getAttribute("data-Id");
         let boxindex =  parseInt(boxId.split('-')[1]);
         // Below action only for empty box and GameOver is false
-        if(!this.template.querySelector('[data-id=box-'+boxindex+']').textContent
+        if(!this.template.querySelector('[data-id=box-'+boxindex+']').innerHTML
             && !this.isGameOver
             || (this.level.includes('Computer')
             && !this.computerturn
-            && !this.template.querySelector('[data-id=box-'+boxindex+']').textContent)){
+            && !this.template.querySelector('[data-id=box-'+boxindex+']').innerHTML)){
                 // computer turn if this.level.includes('Computer')
                 this.computerturn = true;
                 this.displayTurnVal(boxindex);
@@ -221,7 +221,7 @@ export default class TicTacToe extends LightningElement {
     checkDrawMatch(){
         var draw = 0
         this.template.querySelectorAll('.box').forEach(element => {
-            if(element.textContent) draw++;
+            if(element.innerHTML) draw++;
         });
         if(draw == 9){
             // Remove Next turn value text
