@@ -7,4 +7,5 @@ export default class Carousel extends LightningElement {
     sf_blog_img = sf_blog_img;
     number_game_img = number_game_img;
     tic_tac_toe_img = tic_tac_toe_img;
+    sitebaseurl = 'https://vijaykumarkr-dev-ed.my.site.com/sfdcchampion/s/';
 }
