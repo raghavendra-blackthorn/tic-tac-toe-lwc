@@ -109,11 +109,11 @@ export default class TicTacToe extends LightningElement {
 
     displayTurnVal(boxindex){
         // Display Turn Value inside box
-        // let displayTurnImg = this.turn === 'X' ? this.X_icon : this.O_icon;
+        let displayTurnImg = this.turn === 'X' ? this.X_icon : this.O_icon;
         // text in a span
-        this.template.querySelector('[data-id=box-'+boxindex+']').textContent = this.turn;
+        // this.template.querySelector('[data-id=box-'+boxindex+']').textContent = this.turn;
         // image in a span
-        // this.template.querySelector('[data-id='+boxId+']').innerHTML = "<img src="+displayTurnImg+" class="+this.turn+">";
+        this.template.querySelector('[data-id=box-'+boxindex+']').innerHTML = "<img src="+displayTurnImg+" class="+this.turn+">";
         // add CSS to turn color based on X/O
         this.template.querySelector('[data-id=box-'+boxindex+']').classList.add(this.turn+'-turn-color')
         // Check for winning Combination
@@ -172,11 +172,11 @@ export default class TicTacToe extends LightningElement {
     // Check for winning Combination
     checkWinner(){
         this.winCombination.forEach(e => {
-            if(this.template.querySelector('[data-id=box-'+e[0]+']').textContent
-                && this.template.querySelector('[data-id=box-'+e[1]+']').textContent
-                && this.template.querySelector('[data-id=box-'+e[2]+']').textContent
-                && (this.template.querySelector('[data-id=box-'+e[0]+']').textContent == this.template.querySelector('[data-id=box-'+e[1]+']').textContent)
-                && (this.template.querySelector('[data-id=box-'+e[1]+']').textContent == this.template.querySelector('[data-id=box-'+e[2]+']').textContent)){
+            if(this.template.querySelector('[data-id=box-'+e[0]+']').innerHTML
+                && this.template.querySelector('[data-id=box-'+e[1]+']').innerHTML
+                && this.template.querySelector('[data-id=box-'+e[2]+']').innerHTML
+                && (this.template.querySelector('[data-id=box-'+e[0]+']').innerHTML == this.template.querySelector('[data-id=box-'+e[1]+']').innerHTML)
+                && (this.template.querySelector('[data-id=box-'+e[1]+']').innerHTML == this.template.querySelector('[data-id=box-'+e[2]+']').innerHTML)){
                     // Game Over true
                     this.isGameOver = true;
                     // Remove player-won value text
