@@ -171,7 +171,7 @@ export default class TicTacToe extends LightningElement {
     
     // Check for winning Combination
     checkWinner(){
-        this.winCombination.every(e => {
+        this.winCombination.forEach(e => {
             if(this.template.querySelector('[data-id=box-'+e[0]+']').textContent
                 && this.template.querySelector('[data-id=box-'+e[1]+']').textContent
                 && this.template.querySelector('[data-id=box-'+e[2]+']').textContent
@@ -188,13 +188,11 @@ export default class TicTacToe extends LightningElement {
                     //Congrats Img
                     this.displayCongratsImg();
                     // add CSS to cross line 
-                    this.displayCrossLine(e);
+                    // this.displayCrossLine(e);
                     // Update players Score
                     this.updatePoints();
                     // play winner sound track
                     this.playTrack(this.winner_track);
-                    return false;
-                    
             }
         });
     }
@@ -248,7 +246,7 @@ export default class TicTacToe extends LightningElement {
         // hide congrats img
         this.template.querySelector('[class=congratsImg]').style.width = `0`;
         // hide cross line
-        this.template.querySelector('[class=crossline]').style.width = `0`;
+        // this.template.querySelector('[class=crossline]').style.width = `0`;
         for (let index = 0; index < 9; index++) {
             // Remove X / O value from all boxes
             this.template.querySelector('[data-id=box-'+index+']').textContent = '';
