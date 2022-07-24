@@ -171,7 +171,7 @@ export default class TicTacToe extends LightningElement {
     
     // Check for winning Combination
     checkWinner(){
-        this.winCombination.forEach(e => {
+        this.winCombination.every(e => {
             if(this.template.querySelector('[data-id=box-'+e[0]+']').textContent
                 && this.template.querySelector('[data-id=box-'+e[1]+']').textContent
                 && this.template.querySelector('[data-id=box-'+e[2]+']').textContent
@@ -193,6 +193,7 @@ export default class TicTacToe extends LightningElement {
                     this.updatePoints();
                     // play winner sound track
                     this.playTrack(this.winner_track);
+                    return false;
                     
             }
         });
