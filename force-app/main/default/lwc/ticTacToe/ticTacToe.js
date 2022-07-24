@@ -30,11 +30,11 @@ export default class TicTacToe extends LightningElement {
                         [0, 4, 8, 3.6, 14, 45],
                         [2, 4, 6, 3.6, 14, -45]]
     // options
-    options = [{ label: 'Easy', value: 'Computer_Easy' },
-                { label: 'Medium', value: 'Computer_Medium' },
-                { label: 'Play against a Friend', value: 'Friend' }
+    options = [{ label: 'Level 0: Play against a Friend', value: 'Friend' },
+                { label: 'Level 1: Easy', value: 'Computer_Easy' },
+                { label: 'Level 2: Medium', value: 'Computer_Medium' }
                 ]
-    playAgainst = 'Computer_Easy';
+    level = 'Computer_Easy';
     // play with computer
     computerturn = false
     turnedbox = []
@@ -76,12 +76,12 @@ export default class TicTacToe extends LightningElement {
 
     connectedCallback(){
         // check play against value
-        this.computerturn = this.playAgainst.includes('Computer') ? true : false;
+        this.computerturn = this.level.includes('Computer') ? true : false;
     }
 
     // Play Against Combox handleChange
-    handleChangePlayAgainst(event){
-        this.playAgainst = event.detail.value;
+    handleChangeLevel(event){
+        this.level = event.detail.value;
         this.connectedCallback();
         this.X_Points = this.O_Points = 0;
         this.muted = true;
@@ -98,10 +98,10 @@ export default class TicTacToe extends LightningElement {
         // Below action only for empty box and GameOver is false
         if(!this.template.querySelector('[data-id=box-'+boxindex+']').textContent
             && !this.isGameOver
-            || (this.playAgainst.includes('Computer')
+            || (this.level.includes('Computer')
             && !this.computerturn
             && !this.template.querySelector('[data-id=box-'+boxindex+']').textContent)){
-                // computer turn if this.playAgainst.includes('Computer')
+                // computer turn if this.level.includes('Computer')
                 this.computerturn = true;
                 this.displayTurnVal(boxindex);
         }
@@ -132,7 +132,7 @@ export default class TicTacToe extends LightningElement {
             this.checkDrawMatch();
             // this.template.querySelector('[data-id=won-img]').classList.add('addWidth')
             // Computer turn
-            if(this.playAgainst.includes('Computer')
+            if(this.level.includes('Computer')
                 && this.computerturn){
                     setTimeout(() => {
                         // not to make computer turn until next manual turn

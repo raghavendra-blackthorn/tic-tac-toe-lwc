@@ -19,7 +19,7 @@
                 </div>
             </lightning-layout-item>
             <!-- Title -->
-            <lightning-layout-item class="slds-align_absolute-center" padding="around-small" style="padding-right: 6vw;">
+            <lightning-layout-item class="slds-align_absolute-center" padding="" style="padding-right: 5vw;">
                 <h1>Tic Tac Toe</h1>
             </lightning-layout-item>
             <!-- Speaker -->
@@ -48,7 +48,7 @@
 
         <!-- Game Info -->
         <lightning-layout class="slds-align_absolute-center gameInfo">
-            <lightning-layout-item padding="around-small">
+            <lightning-layout-item padding="">
                 <span if:true={isGameOver}>Game Over: </span>
                 <span if:false={isGameOn}>Start game: </span>
                 <span data-id="player-turn-text">X-turn</span>
@@ -62,10 +62,10 @@
             <!-- Select Player Combobox -->
             <lightning-layout-item flexibility="auto, no-grow" padding="around-small">
                 <lightning-combobox name="Play Against"
-                                    value={playAgainst}
+                                    value={level}
                                     placeholder="Select Option"
                                     options={options}
-                                    onchange={handleChangePlayAgainst}>
+                                    onchange={handleChangeLevel}>
                     </lightning-combobox>
             </lightning-layout-item>
             <!-- Boxes -->

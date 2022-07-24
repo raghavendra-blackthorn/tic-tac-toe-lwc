@@ -8,8 +8,8 @@ div.imgcontainer p span {
     visibility: hidden;
     position: absolute;
     /* background: #ffffff; */
-    width: 16vw;
-    font-size: 1.8vw;
+    width: 12rem;
+    font-size: 1rem;
     padding: 0.3rem;
     line-height: 1;
 }
@@ -20,7 +20,7 @@ div.imgcontainer p:hover span {
     background-color: #202124;
 }
 .astroimg{
-    height: 8vw;
+    height: 6vw;
 }
 .astroimg:hover{
     animation: shake 1s;
@@ -169,7 +169,7 @@ lightning-button.restart {
         height: 15vw;
     }
     div.imgcontainer a span {
-        font-size: 3.8vw;
+        margin: -2rem;
     }
 }
 /* CSS to apply screens which are below 500px */
