@@ -1,29 +1,30 @@
 <template>
-    <div class="slds-size_3-of-4">
-        <div class="slds-box slds-box_x-small slds-text-align_center slds-m-around_x-small">Basic Carousel
-            <lightning-carousel>
-                <lightning-carousel-image
-                    src = ""
-                    header = "First Card"
-                    description = "First card description."
-                    alternative-text = "First card accessible description."
-                    href = "https://sfdcchampion4u.wordpress.com/">
-                </lightning-carousel-image>
-                <lightning-carousel-image
-                    src = ""
-                    header = "Second Card"
-                    description = "Second card description."
-                    alternative-text = "Second card accessible description."
-                    href = "https://vijaykumarkr-dev-ed.my.site.com/sfdcchampion/s/tic-tac-toe-lwc">
-                </lightning-carousel-image>
-                <lightning-carousel-image
-                    src = ""
-                    header = "Third Card"
-                    description = "Third card description."
-                    alternative-text = "Third card accessible description."
-                    href = "https://vijaykumarkr-developer-edition.ap5.force.com/Games/s/gamecard">
-                </lightning-carousel-image>
-            </lightning-carousel>
-        </div>
+    <div class="slds-box slds-p-around_none slds-m-top_x-small slds-m-bottom_medium slds-m-horizontal_none">
+        <lightning-layout multiple-rows>
+            <lightning-layout-item size="4" padding="around-small">
+                <lightning-carousel-image src={number_game_img}
+                                            header = "Magic Number Game"
+                                            description = "In Aura."
+                                            alternative-text = "Magic Number Game"
+                                            href = "https://vijaykumarkr-developer-edition.ap5.force.com/Games/s/gamecard">
+            </lightning-carousel-image>
+            </lightning-layout-item>
+            <lightning-layout-item size="4" padding="around-small">
+                <lightning-carousel-image src={tic_tac_toe_img}
+                                            header = "Tic Tac Toe"
+                                            description = "In LWC."
+                                            alternative-text = "Tic Tac Toe"
+                                            href = "https://vijaykumarkr-dev-ed.my.site.com/sfdcchampion/s/tic-tac-toe-lwc">
+            </lightning-carousel-image>
+            </lightning-layout-item>
+            <lightning-layout-item size="4" padding="around-small">
+                <lightning-carousel-image src={sf_blog_img}
+                                            header = "My SF Blog"
+                                            description = "Salesforce Blog"
+                                            alternative-text = "My SF Blog"
+                                            href = "https://vijaykumarkr-developer-edition.ap5.force.com/Games/s/gamecard">
+            </lightning-carousel-image>
+            </lightning-layout-item>
+        </lightning-layout>
     </div>
 </template>
