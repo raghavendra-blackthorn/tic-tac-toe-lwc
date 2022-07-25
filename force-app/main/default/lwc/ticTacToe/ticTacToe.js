@@ -134,6 +134,7 @@ export default class TicTacToe extends LightningElement {
             // Computer turn
             if(this.level.includes('Computer')
                 && this.computerturn){
+                    this.isLoading = true;
                     setTimeout(() => {
                         // not to make computer turn until next manual turn
                         this.computerturn = false;
@@ -150,6 +151,7 @@ export default class TicTacToe extends LightningElement {
                         // Call displayTurnVal method to select Next turn 
                         this.displayTurnVal(boxindex); 
                     }, 500);
+                    this.isLoading = false;
             }
         }
     }
