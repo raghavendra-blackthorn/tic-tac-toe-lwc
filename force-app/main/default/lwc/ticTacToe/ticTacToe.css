@@ -95,7 +95,7 @@ div.imgcontainer p:hover span {
         opacity: 0.8;
     }
     50% {
-        transform: rotate(0deg) scale(1.2);
+        transform: rotate(0deg) scale(1.1);
         opacity: 1;
     }
     100% {

@@ -173,8 +173,9 @@ export default class TicTacToe extends LightningElement {
     
     // Check for winning Combination
     checkWinner(){
+        var winnotfound = true;
         this.winCombination.forEach(e => {
-            if(this.template.querySelector('[data-id=box-'+e[0]+']').innerHTML
+            if(winnotfound && this.template.querySelector('[data-id=box-'+e[0]+']').innerHTML
                 && this.template.querySelector('[data-id=box-'+e[1]+']').innerHTML
                 && this.template.querySelector('[data-id=box-'+e[2]+']').innerHTML
                 && (this.template.querySelector('[data-id=box-'+e[0]+']').innerHTML == this.template.querySelector('[data-id=box-'+e[1]+']').innerHTML)
@@ -195,6 +196,7 @@ export default class TicTacToe extends LightningElement {
                     this.updatePoints();
                     // play winner sound track
                     this.playTrack(this.winner_track);
+                    winnotfound = false
             }
         });
     }
