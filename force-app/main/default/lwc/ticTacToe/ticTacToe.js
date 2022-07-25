@@ -153,23 +153,54 @@ export default class TicTacToe extends LightningElement {
         }
     }
 
+    edgemoves = [1, 3, 5, 7]
+    cornermoves = [0, 2, 6, 8]
+    centermove = [4]
+
     // Computer turn for Easy and Hard level
     computerTurn(boxindex){
+        // not to make computer turn until next manual turn
+        this.computerturn = false;
         setTimeout(() => {
-            // not to make computer turn until next manual turn
-            this.computerturn = false;
-            this.filledbox.push(boxindex);
-            // remove manually filled box index from remainingbox array
-            this.getRemainingBoxIndex(boxindex);
-            console.log('filledbox: ', this.filledbox); 
-            // get random index for computer turn
-            boxindex = this.getRandomIndex(this.remainingbox);
-            console.log('boxindex: ', boxindex); 
-            // remove CPU filled box index from remainingbox array
-            this.getRemainingBoxIndex(boxindex);
-            console.log('remainingbox: ', this.remainingbox); 
-            // Call displayTurnVal method to select Next turn 
-            this.displayTurnVal(boxindex); 
+            // player edge move make cpu move adjacent to it 
+            if(this.level.includes('Hard')){
+                if(this.edgemoves.includes(boxindex)){
+                    switch(boxindex){
+                        case 1:
+                            this.displayTurnVal(0); 
+                            break;
+                        case 3:
+                        case 7:
+                            this.displayTurnVal(6);
+                            break;
+                        case 5:
+                            this.displayTurnVal(2); 
+                            break;
+                    }
+                }
+                // player corner move make cpu move center
+                else if(this.cornermoves.includes(boxindex)){
+                    this.displayTurnVal(4); 
+                }
+                // player center move make cpu move corner
+                else if(this.centermove == boxindex){
+                    let cornerbox = this.getRandomIndex(this.cornermoves);
+                    this.displayTurnVal(cornerbox); 
+                }
+            }else{
+                this.filledbox.push(boxindex);
+                // remove manually filled box index from remainingbox array
+                this.getRemainingBoxIndex(boxindex);
+                console.log('filledbox: ', this.filledbox); 
+                // get random index for computer turn
+                boxindex = this.getRandomIndex(this.remainingbox);
+                console.log('boxindex: ', boxindex); 
+                // remove CPU filled box index from remainingbox array
+                this.getRemainingBoxIndex(boxindex);
+                console.log('remainingbox: ', this.remainingbox); 
+                // Call displayTurnVal method to select Next turn 
+                this.displayTurnVal(boxindex); 
+            }
         }, 500);
         this.isLoading = false;
     }
