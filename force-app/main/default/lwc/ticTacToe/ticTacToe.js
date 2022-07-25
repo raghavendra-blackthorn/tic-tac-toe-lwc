@@ -31,10 +31,10 @@ export default class TicTacToe extends LightningElement {
                         [2, 4, 6, 3.6, 14, -45]]
     // options
     options = [{ label: 'Level 0: Play against a Friend', value: 'Friend' },
-                { label: 'Level 1: Easy', value: 'Computer_Easy' },
-                { label: 'Level 2: Medium', value: 'Computer_Medium' }
+                { label: 'Level 1: Easy', value: 'CPU_Easy' },
+                { label: 'Level 2: unbeatable', value: 'CPU_Hard' }
                 ]
-    level = 'Computer_Easy';
+    level = 'CPU_Easy';
     // play with computer
     computerturn = false
     filledbox = []
@@ -76,7 +76,7 @@ export default class TicTacToe extends LightningElement {
 
     connectedCallback(){
         // check play against value
-        this.computerturn = this.level.includes('Computer') ? true : false;
+        this.computerturn = this.level.includes('CPU') ? true : false;
     }
 
     // Play Against Combox handleChange
@@ -89,6 +89,10 @@ export default class TicTacToe extends LightningElement {
         this.muted = false;
     }
 
+    get getleveldescription(){
+        return this.level == 'CPU_Easy' ? 'Computer is bumb' : this.level == 'CPU_Hard' ? 'Unbeatable Computer' : 'Enjoy the party with your friend';
+    }
+
     // handleClick on turn change
     handleBoxClick(event){
         this.isGameOn = true;
@@ -96,15 +100,24 @@ export default class TicTacToe extends LightningElement {
         let boxId = event.currentTarget.getAttribute("data-Id");
         let boxindex =  parseInt(boxId.split('-')[1]);
         // Below action only for empty box and GameOver is false
+        if(this.getGameStatus(boxindex)){
+            // computer turn if this.level.includes('CPU')
+            this.computerturn = true;
+            this.displayTurnVal(boxindex);
+        }
+    }
+
+    // Check for game not over and already filled boxes 
+    getGameStatus(boxindex){
         if(!this.template.querySelector('[data-id=box-'+boxindex+']').innerHTML
             && !this.isGameOver
-            || (this.level.includes('Computer')
+            || (this.level.includes('CPU')
             && !this.computerturn
             && !this.template.querySelector('[data-id=box-'+boxindex+']').innerHTML)){
-                // computer turn if this.level.includes('Computer')
-                this.computerturn = true;
-                this.displayTurnVal(boxindex);
-        }
+                return true;
+            }else{
+                return false;
+            } 
     }
 
     displayTurnVal(boxindex){
@@ -131,29 +144,34 @@ export default class TicTacToe extends LightningElement {
             // checkDrawMatch
             this.checkDrawMatch();
             // this.template.querySelector('[data-id=won-img]').classList.add('addWidth')
-            // Computer turn
-            if(this.level.includes('Computer')
+            // CPU turn
+            if(this.level.includes('CPU')
                 && this.computerturn){
                     this.isLoading = true;
-                    setTimeout(() => {
-                        // not to make computer turn until next manual turn
-                        this.computerturn = false;
-                        this.filledbox.push(boxindex);
-                        // remove manually filled box index from remainingbox array
-                        this.getRemainingBoxIndex(boxindex);
-                        console.log('filledbox: ', this.filledbox); 
-                        // get random index for computer turn
-                        boxindex = this.getRandomIndex(this.remainingbox);
-                        console.log('boxindex: ', boxindex); 
-                        // remove CPU filled box index from remainingbox array
-                        this.getRemainingBoxIndex(boxindex);
-                        console.log('remainingbox: ', this.remainingbox); 
-                        // Call displayTurnVal method to select Next turn 
-                        this.displayTurnVal(boxindex); 
-                    }, 500);
-                    this.isLoading = false;
+                    this.computerTurn(boxindex);
             }
         }
+    }
+
+    // Computer turn for Easy and Hard level
+    computerTurn(boxindex){
+        setTimeout(() => {
+            // not to make computer turn until next manual turn
+            this.computerturn = false;
+            this.filledbox.push(boxindex);
+            // remove manually filled box index from remainingbox array
+            this.getRemainingBoxIndex(boxindex);
+            console.log('filledbox: ', this.filledbox); 
+            // get random index for computer turn
+            boxindex = this.getRandomIndex(this.remainingbox);
+            console.log('boxindex: ', boxindex); 
+            // remove CPU filled box index from remainingbox array
+            this.getRemainingBoxIndex(boxindex);
+            console.log('remainingbox: ', this.remainingbox); 
+            // Call displayTurnVal method to select Next turn 
+            this.displayTurnVal(boxindex); 
+        }, 500);
+        this.isLoading = false;
     }
 
     // get remaining empty box index values
