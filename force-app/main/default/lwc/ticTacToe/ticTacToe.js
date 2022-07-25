@@ -37,8 +37,8 @@ export default class TicTacToe extends LightningElement {
     level = 'Computer_Easy';
     // play with computer
     computerturn = false
-    turnedbox = []
-    unturnedbox = [0, 1, 2, 3, 4, 5, 6, 7, 8]
+    filledbox = []
+    remainingbox = [0, 1, 2, 3, 4, 5, 6, 7, 8]
     // img
     congrats_img = congratsImg
     Astro_img = AstroImg
@@ -138,16 +138,16 @@ export default class TicTacToe extends LightningElement {
                     setTimeout(() => {
                         // not to make computer turn until next manual turn
                         this.computerturn = false;
-                        this.turnedbox.push(boxindex);
-                        // remove manually selected box index
-                        this.getEmptyBoxIndex(boxindex);
-                        console.log('turnedbox: ', this.turnedbox); 
+                        this.filledbox.push(boxindex);
+                        // remove manually filled box index from remainingbox array
+                        this.getRemainingBoxIndex(boxindex);
+                        console.log('filledbox: ', this.filledbox); 
                         // get random index for computer turn
-                        boxindex = this.getRandomIndex(this.unturnedbox);
+                        boxindex = this.getRandomIndex(this.remainingbox);
                         console.log('boxindex: ', boxindex); 
-                        // remove manually selected box index
-                        this.getEmptyBoxIndex(boxindex);
-                        console.log('unturnedbox: ', this.unturnedbox); 
+                        // remove CPU filled box index from remainingbox array
+                        this.getRemainingBoxIndex(boxindex);
+                        console.log('remainingbox: ', this.remainingbox); 
                         // Call displayTurnVal method to select Next turn 
                         this.displayTurnVal(boxindex); 
                     }, 500);
@@ -157,17 +157,17 @@ export default class TicTacToe extends LightningElement {
     }
 
     // get remaining empty box index values
-    getEmptyBoxIndex(boxindex){
-        const index = this.unturnedbox.indexOf(boxindex);
+    getRemainingBoxIndex(boxindex){
+        const index = this.remainingbox.indexOf(boxindex);
         if (index > -1) {
-            this.unturnedbox.splice(index, 1); 
+            this.remainingbox.splice(index, 1); 
         }
     }
 
-    // get a random index from an unturnedbox array
-    getRandomIndex(array) {
-        const randomboxIndex = Math.floor(Math.random() * array.length);
-        const indexval = array[randomboxIndex];
+    // get a random index from an remainingbox array
+    getRandomIndex(remainingbox) {
+        const randomboxIndex = Math.floor(Math.random() * remainingbox.length);
+        const indexval = remainingbox[randomboxIndex];
         return indexval;
     }
     
@@ -239,8 +239,8 @@ export default class TicTacToe extends LightningElement {
         this.isLoading = true;
         this.isGameOver = false;
         this.turn = 'X';
-        this.turnedbox = [];
-        this.unturnedbox = [0, 1, 2, 3, 4, 5, 6, 7, 8]
+        this.filledbox = [];
+        this.remainingbox = [0, 1, 2, 3, 4, 5, 6, 7, 8]
         // Play restart track
         this.playTrack(this.restart_track);
         // Remove player-won value text
