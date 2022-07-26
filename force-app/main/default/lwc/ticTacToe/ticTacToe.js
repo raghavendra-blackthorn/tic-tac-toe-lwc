@@ -74,6 +74,7 @@ export default class TicTacToe extends LightningElement {
         this.muted = !this.muted;
     }
 
+    // onload check whether level is Manual player or with computer
     connectedCallback(){
         // check play against value
         this.computerturn = this.level.includes('CPU') ? true : false;
@@ -82,13 +83,17 @@ export default class TicTacToe extends LightningElement {
     // Play Against Combox handleChange
     handleChangeLevel(event){
         this.level = event.detail.value;
+        // check whether level is Manual player or with computer
         this.connectedCallback();
+        // restart player points table
         this.X_Points = this.O_Points = 0;
+        // mute sound for level change
         this.muted = true;
         this.handleRestart();
         this.muted = false;
     }
 
+    // show description on selected level  
     get getleveldescription(){
         return this.level == 'CPU_Easy' ? 'Computer is bumb' : this.level == 'CPU_Hard' ? 'Unbeatable Computer' : 'Enjoy the party with your friend';
     }
@@ -99,8 +104,8 @@ export default class TicTacToe extends LightningElement {
         // Current box id
         let boxId = event.currentTarget.getAttribute("data-Id");
         let boxindex =  parseInt(boxId.split('-')[1]);
-        // Below action only for empty box and GameOver is false
-        if(this.getGameStatus(boxindex)){
+        // Below action execute only when GameOver is false
+        if(!this.isGameOver){
             // computer turn if this.level.includes('CPU')
             this.computerturn = true;
             this.displayTurnVal(boxindex);
@@ -108,35 +113,26 @@ export default class TicTacToe extends LightningElement {
     }
 
     // Check for game not over and already filled boxes 
-    getGameStatus(boxindex){
-        if(!this.template.querySelector('[data-id=box-'+boxindex+']').innerHTML
-            && !this.isGameOver
-            || (this.level.includes('CPU')
-            && !this.computerturn
-            && !this.template.querySelector('[data-id=box-'+boxindex+']').innerHTML)){
-                return true;
-            }else{
-                return false;
-            } 
-    }
+    // getGameStatus(boxindex){
+    //     if(!this.template.querySelector('[data-id=box-'+boxindex+']').innerHTML
+    //         && !this.isGameOver
+    //         || (this.level.includes('CPU')
+    //         && !this.computerturn
+    //         && !this.template.querySelector('[data-id=box-'+boxindex+']').innerHTML)){
+    //             return true;
+    //         }else{
+    //             return false;
+    //         } 
+    // }
 
     displayTurnVal(boxindex){
-        // Display Turn Value inside box
-        let displayTurnImg = this.turn === 'X' ? this.X_icon : this.O_icon;
-        // text in a span
-        // this.template.querySelector('[data-id=box-'+boxindex+']').textContent = this.turn;
-        // image in a span
-        this.template.querySelector('[data-id=box-'+boxindex+']').innerHTML = "<img src="+displayTurnImg+" class="+this.turn+">";
-        // add CSS to turn color based on X/O
-        this.template.querySelector('[data-id=box-'+boxindex+']').classList.add(this.turn+'-turn-color')
-        // Check for winning Combination
-        this.checkWinner();
-        // Change turn value 
-        this.swapTurn();
-        // Avoid adding CSS for Next turn without onclick
-        this.template.querySelector('[data-id=box-'+boxindex+']').classList.remove(this.turn+'-turn-color')
-        // to avoid showing Next trun after Game Over
-        if(!this.isGameOver){
+        this.updateSelectedBoxProperties(boxindex);
+        // below actions execute only when game not over
+        if(!this.checkWinner()){
+            // Change turn value 
+            this.swapTurn();
+            // Avoid adding CSS for Next turn without onclick
+            this.template.querySelector('[data-id=box-'+boxindex+']').classList.remove(this.turn+'-turn-color')
             // play sound on each turn 
             this.playTrack(this.turn_change_track);
             // Next turn value on screen
@@ -151,6 +147,20 @@ export default class TicTacToe extends LightningElement {
                     this.computerTurn(boxindex);
             }
         }
+    }
+
+    // everything related to selected box
+    updateSelectedBoxProperties(boxindex){
+        // Display Turn Value inside box
+        let displayTurnImg = this.turn === 'X' ? this.X_icon : this.O_icon;
+        // text in a span
+        // this.template.querySelector('[data-id=box-'+boxindex+']').textContent = this.turn;
+        // image in a span
+        this.template.querySelector('[data-id=box-'+boxindex+']').innerHTML = "<img src="+displayTurnImg+" class="+this.turn+">";
+        // avoid overriding filled box
+        this.template.querySelector('[data-id=box-'+boxindex+']').style = "pointer-events: none;";
+        // add CSS to turn color based on X/O
+        this.template.querySelector('[data-id=box-'+boxindex+']').classList.add(this.turn+'-turn-color');
     }
 
     edgemoves = [1, 3, 5, 7]
@@ -220,9 +230,11 @@ export default class TicTacToe extends LightningElement {
         return indexval;
     }
     
-    // Check for winning Combination
+    // check winner
     checkWinner(){
+        // to avoid dual line winning combination (ex: When both 0, 1, 2 and 1, 4, 7 having same values)
         var winnotfound = true;
+        // Check for winning Combination
         this.winCombination.forEach(e => {
             if(winnotfound && this.template.querySelector('[data-id=box-'+e[0]+']').innerHTML
                 && this.template.querySelector('[data-id=box-'+e[1]+']').innerHTML
@@ -235,7 +247,7 @@ export default class TicTacToe extends LightningElement {
                     this.template.querySelector('[data-id=player-won]').textContent = this.turn;
                     // Remove Next turn value text
                     this.template.querySelector('[data-id=player-turn-text]').textContent = '';
-                    // add pulse CSS to highligh matched turn
+                    // add pulse CSS to highligh winning combination boxes
                     this.addPulseCssForMatchedPath(e);
                     //Congrats Img
                     this.displayCongratsImg();
@@ -248,34 +260,41 @@ export default class TicTacToe extends LightningElement {
                     winnotfound = false
             }
         });
+        return this.isGameOver;
     }
 
+    // add pulse CSS to highligh winning combination boxes
     addPulseCssForMatchedPath(e){
         this.template.querySelector('[data-id=box-'+e[0]+']').classList.add('boxPulse');
         this.template.querySelector('[data-id=box-'+e[1]+']').classList.add('boxPulse');
         this.template.querySelector('[data-id=box-'+e[2]+']').classList.add('boxPulse');
     }
 
+    //Congrats Img
     displayCongratsImg(){
         this.template.querySelector('[class=congratsImg]').style.width = `300px`;
     }
 
+    // DEPRECATED : display line for winning combination boxes
     displayCrossLine(e){
         this.template.querySelector('[class=crossline]').style.width = `15rem`;
         this.template.querySelector('[class=crossline]').style.transform = `translate(${e[3]}vw, ${e[4]}vw) rotate(${e[5]}deg)`;
         // this.template.querySelector('[class=line]').classList.add(this.turn+'-turn-line-color');
     }
 
+    // Update players Score
     updatePoints(){
         this.X_Points = this.turn === 'X' ? this.X_Points + 1 : this.X_Points;
         this.O_Points = this.turn === 'O' ? this.O_Points + 1 : this.O_Points;
     }
 
+    // verify draw match 
     checkDrawMatch(){
         var draw = 0
         this.template.querySelectorAll('.box').forEach(element => {
             if(element.innerHTML) draw++;
         });
+        // if its a draw
         if(draw == 9){
             // Remove Next turn value text
             this.template.querySelector('[data-id=player-turn-text]').textContent = '';
@@ -283,7 +302,7 @@ export default class TicTacToe extends LightningElement {
         }
     }
 
-    // handle Restart on "Restart Game" and "Play Against" 
+    // handle Restart on "Restart Game" and "level" options change
     handleRestart(){
         this.isLoading = true;
         this.isGameOver = false;
@@ -302,7 +321,9 @@ export default class TicTacToe extends LightningElement {
         // this.template.querySelector('[class=crossline]').style.width = `0`;
         for (let index = 0; index < 9; index++) {
             // Remove X / O value from all boxes
-            this.template.querySelector('[data-id=box-'+index+']').textContent = '';
+            this.template.querySelector('[data-id=box-'+index+']').innerHTML = '';
+            // make empty boxes clickable
+            this.template.querySelector('[data-id=box-'+index+']').style = "pointer-events: all;";
             // Remove Pulse CSS from all boxes
             this.template.querySelector('[data-id=box-'+index+']').classList.remove('boxPulse');
         }
