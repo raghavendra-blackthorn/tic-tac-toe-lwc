@@ -2,8 +2,11 @@ import { LightningElement } from 'lwc';
 // Resource-Image
 import congratsImg from '@salesforce/resourceUrl/congrats_img'; 
 import AstroImg from '@salesforce/resourceUrl/Astro_img';
+// turn icons
 import Xicon from '@salesforce/resourceUrl/X_icon';  
 import Oicon from '@salesforce/resourceUrl/O_icon';
+// level img
+import beast_level from '@salesforce/resourceUrl/beast_level';
 // Resource-Track
 import turnChangeTrack from '@salesforce/resourceUrl/turn_change_track';
 import winnerTrack from '@salesforce/resourceUrl/winner_track';
@@ -59,8 +62,11 @@ export default class TicTacToe extends LightningElement {
     // img
     congrats_img = congratsImg
     Astro_img = AstroImg
+    // turn icon
     X_icon = Xicon
     O_icon = Oicon
+    // level img
+    beast_level = beast_level
     //track
     turn_change_track = turnChangeTrack;
     winner_track = winnerTrack;
@@ -367,7 +373,15 @@ export default class TicTacToe extends LightningElement {
 
     //Congrats Img
     displayCongratsImg(){
-        this.template.querySelector('[class=congratsImg]').style.width = `300px`;
+        // img when cpu won in beast level
+        if(this.level.includes('Hard')){
+            this.template.querySelector('[class=levelimg]').style.width = `155px`;
+            this.template.querySelector('[data-id=hu-lose]').textContent = 'You Lose!';
+        }
+        // img for easy level 
+        else{
+            this.template.querySelector('[class=congratsImg]').style.width = `300px`;
+        }
     }
 
     // DEPRECATED : display line for winning combination boxes
@@ -410,6 +424,9 @@ export default class TicTacToe extends LightningElement {
         this.template.querySelector('[data-id=player-turn-text]').textContent = this.turn+' turn';
         // hide congrats img
         this.template.querySelector('[class=congratsImg]').style.width = `0`;
+        // hide beast level img
+        this.template.querySelector('[class=levelimg]').style.width = `0`;
+        this.template.querySelector('[data-id=hu-lose]').textContent = '';
         // hide cross line
         // this.template.querySelector('[class=crossline]').style.width = `0`;
         for (let index = 0; index < 9; index++) {

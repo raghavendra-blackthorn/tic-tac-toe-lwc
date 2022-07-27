@@ -22,6 +22,10 @@ div.imgcontainer p:hover span {
 .leveldesc{
     font-size: 18px;
 }
+.levelimg{
+    width: 0;
+    transition: width 1s ease-in-out;
+}
 .astroimg{
     height: 6vw;
 }
