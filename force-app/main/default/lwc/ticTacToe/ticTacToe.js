@@ -17,28 +17,45 @@ export default class TicTacToe extends LightningElement {
     isGameOn = false
     // game over bool
     isGameOver = false
+    // Original Board index
+    currentBoardIndexValue = [0, 1, 2, 3, 4, 5, 6, 7, 8]
     // turn winning combination & line angle 
+    // winCombination = [// rows
+    //                     [0, 1, 2, 3, 5, 0],
+    //                     [3, 4, 5, 3, 14, 0],                       
+    //                     [6, 7, 8, 3, 23, 0],
+    //                     // columns
+    //                     [0, 3, 6, -6, 14, 90],
+    //                     [1, 4, 7, 3.3, 14, 90],
+    //                     [2, 5, 8, 12.6, 14, 90],
+    //                     // diagonal
+    //                     [0, 4, 8, 3.6, 14, 45],
+    //                     [2, 4, 6, 3.6, 14, -45]]
     winCombination = [// rows
-                        [0, 1, 2, 3, 5, 0],
-                        [3, 4, 5, 3, 14, 0],                       
-                        [6, 7, 8, 3, 23, 0],
+                        [0, 1, 2],
+                        [3, 4, 5],                       
+                        [6, 7, 8],
                         // columns
-                        [0, 3, 6, -6, 14, 90],
-                        [1, 4, 7, 3.3, 14, 90],
-                        [2, 5, 8, 12.6, 14, 90],
+                        [0, 3, 6],
+                        [1, 4, 7],
+                        [2, 5, 8],
                         // diagonal
-                        [0, 4, 8, 3.6, 14, 45],
-                        [2, 4, 6, 3.6, 14, -45]]
+                        [0, 4, 8],
+                        [2, 4, 6]]
     // options
-    options = [{ label: 'Level 0: Play against a Friend', value: 'Friend' },
-                { label: 'Level 1: Easy', value: 'CPU_Easy' },
-                { label: 'Level 2: unbeatable', value: 'CPU_Hard' }
+    options = [{ label: 'Play against a Friend', value: 'Friend' },
+                { label: 'Level 0: Easy', value: 'CPU_Easy' },
+                { label: 'Level 1: Beast', value: 'CPU_Hard' }
                 ]
+    // computer turn var
     level = 'CPU_Easy';
+    isFirstTurn = true;
     // play with computer
     computerturn = false
-    filledbox = []
-    remainingbox = [0, 1, 2, 3, 4, 5, 6, 7, 8]
+    // Easy level var
+    edgemoves = [1, 3, 5, 7]
+    cornermoves = [0, 2, 6, 8]
+    centermove = [4]
     // img
     congrats_img = congratsImg
     Astro_img = AstroImg
@@ -88,14 +105,12 @@ export default class TicTacToe extends LightningElement {
         // restart player points table
         this.X_Points = this.O_Points = 0;
         // mute sound for level change
-        this.muted = true;
         this.handleRestart();
-        this.muted = false;
     }
 
     // show description on selected level  
     get getleveldescription(){
-        return this.level == 'CPU_Easy' ? 'Computer is bumb' : this.level == 'CPU_Hard' ? 'Unbeatable Computer' : 'Enjoy the party with your friend';
+        return this.level == 'CPU_Easy' ? 'Computer is dumb' : this.level == 'CPU_Hard' ? 'Computer is a Beast' : '';
     }
 
     // handleClick on turn change
@@ -111,21 +126,12 @@ export default class TicTacToe extends LightningElement {
             this.displayTurnVal(boxindex);
         }
     }
-
-    // Check for game not over and already filled boxes 
-    // getGameStatus(boxindex){
-    //     if(!this.template.querySelector('[data-id=box-'+boxindex+']').innerHTML
-    //         && !this.isGameOver
-    //         || (this.level.includes('CPU')
-    //         && !this.computerturn
-    //         && !this.template.querySelector('[data-id=box-'+boxindex+']').innerHTML)){
-    //             return true;
-    //         }else{
-    //             return false;
-    //         } 
-    // }
-
+    
     displayTurnVal(boxindex){
+        // represent current turn values over all index
+        let currentturnindex = this.currentBoardIndexValue.indexOf(boxindex);
+        this.currentBoardIndexValue[currentturnindex] = this.turn;
+
         this.updateSelectedBoxProperties(boxindex);
         // below actions execute only when game not over
         if(!this.checkWinner()){
@@ -163,10 +169,6 @@ export default class TicTacToe extends LightningElement {
         this.template.querySelector('[data-id=box-'+boxindex+']').classList.add(this.turn+'-turn-color');
     }
 
-    edgemoves = [1, 3, 5, 7]
-    cornermoves = [0, 2, 6, 8]
-    centermove = [4]
-
     // Computer turn for Easy and Hard level
     computerTurn(boxindex){
         // not to make computer turn until next manual turn
@@ -174,40 +176,43 @@ export default class TicTacToe extends LightningElement {
         setTimeout(() => {
             // player edge move make cpu move adjacent to it 
             if(this.level.includes('Hard')){
-                if(this.edgemoves.includes(boxindex)){
-                    switch(boxindex){
-                        case 1:
-                            this.displayTurnVal(0); 
-                            break;
-                        case 3:
-                        case 7:
-                            this.displayTurnVal(6);
-                            break;
-                        case 5:
-                            this.displayTurnVal(2); 
-                            break;
+                if(this.isFirstTurn){
+                    this.isFirstTurn = false;
+                    if(this.edgemoves.includes(boxindex)){
+                        switch(boxindex){
+                            case 1:
+                                this.displayTurnVal(0); 
+                                break;
+                            case 3:
+                            case 7:
+                                this.displayTurnVal(6);
+                                break;
+                            case 5:
+                                this.displayTurnVal(2); 
+                                break;
+                        }
                     }
+                    // player corner move make cpu move center
+                    else if(this.cornermoves.includes(boxindex)){
+                        this.displayTurnVal(4); 
+                    }
+                    // player center move make cpu move corner
+                    else if(this.centermove == boxindex){
+                        let cornerbox = this.getRandomIndex(this.cornermoves);
+                        this.displayTurnVal(cornerbox); 
+                    }
+                }else{
+                    // finding the ultimate play on the game that favors the computer
+                    var bestSpot = this.minimax(this.currentBoardIndexValue, this.turn);
+                    this.displayTurnVal(bestSpot.index); 
                 }
-                // player corner move make cpu move center
-                else if(this.cornermoves.includes(boxindex)){
-                    this.displayTurnVal(4); 
-                }
-                // player center move make cpu move corner
-                else if(this.centermove == boxindex){
-                    let cornerbox = this.getRandomIndex(this.cornermoves);
-                    this.displayTurnVal(cornerbox); 
-                }
-            }else{
-                this.filledbox.push(boxindex);
-                // remove manually filled box index from remainingbox array
-                this.getRemainingBoxIndex(boxindex);
-                console.log('filledbox: ', this.filledbox); 
+            }
+            // Easy level of Computer 
+            else{
+                // get empty boxes
+                let remainingbox = this.getEmptyIndexies();
                 // get random index for computer turn
-                boxindex = this.getRandomIndex(this.remainingbox);
-                console.log('boxindex: ', boxindex); 
-                // remove CPU filled box index from remainingbox array
-                this.getRemainingBoxIndex(boxindex);
-                console.log('remainingbox: ', this.remainingbox); 
+                boxindex = this.getRandomIndex(remainingbox);
                 // Call displayTurnVal method to select Next turn 
                 this.displayTurnVal(boxindex); 
             }
@@ -215,12 +220,96 @@ export default class TicTacToe extends LightningElement {
         this.isLoading = false;
     }
 
-    // get remaining empty box index values
-    getRemainingBoxIndex(boxindex){
-        const index = this.remainingbox.indexOf(boxindex);
-        if (index > -1) {
-            this.remainingbox.splice(index, 1); 
+    // keep track of function calls
+    fc = 0;
+
+    // the main minimax function
+    minimax(newBoard, player){
+        //keep track of function calls;
+        this.fc = this.fc+1;
+        //available spots
+        var availSpots = this.getEmptyIndexies(newBoard);
+        // checks for the terminal states such as win, lose, and tie and returning a value accordingly
+        if (this.winning(newBoard, 'X')){
+        return {score:-10};
         }
+        else if (this.winning(newBoard, 'O')){
+        return {score:10};
+        }
+        else if (availSpots.length === 0){
+            return {score:0};
+        }
+        // an array to collect all the objects
+        var moves = [];
+        // loop through available spots
+        for (var i = 0; i < availSpots.length; i++){
+            //create an object for each and store the index of that spot that was stored as a number in the object's index key
+            var move = {};
+                move.index = newBoard[availSpots[i]];
+            // set the empty spot to the current player
+            newBoard[availSpots[i]] = player;
+
+            //if collect the score resulted from calling minimax on the opponent of the current player
+            if (player == 'O'){
+                var result = this.minimax(newBoard, 'X');
+                move.score = result.score;
+            }
+            else{
+                var result = this.minimax(newBoard, 'O');
+                move.score = result.score;
+            }
+            
+            //reset the spot to empty
+            newBoard[availSpots[i]] = move.index;
+        
+            // push the object to the array
+            moves.push(move);
+        }
+    
+        // if it is the computer's turn loop over the moves and choose the move with the highest score
+        var bestMove;
+        if(player === 'O'){
+            var bestScore = -10000;
+            for(var i = 0; i < moves.length; i++){
+                if(moves[i].score > bestScore){
+                    bestScore = moves[i].score;
+                    bestMove = i;
+                }
+            }
+        }else{
+        // else loop over the moves and choose the move with the lowest score
+        var bestScore = 10000;
+            for(var i = 0; i < moves.length; i++){
+                if(moves[i].score < bestScore){
+                bestScore = moves[i].score;
+                bestMove = i;
+                }
+            }
+        }
+        // return the chosen move (object) from the array to the higher depth
+        return moves[bestMove];
+    }
+
+    // winning combinations using the board indexies for instace the first win could be 3 xes in a row
+    winning(board, player){
+    if (
+           (board[0] == player && board[1] == player && board[2] == player) ||
+           (board[3] == player && board[4] == player && board[5] == player) ||
+           (board[6] == player && board[7] == player && board[8] == player) ||
+           (board[0] == player && board[3] == player && board[6] == player) ||
+           (board[1] == player && board[4] == player && board[7] == player) ||
+           (board[2] == player && board[5] == player && board[8] == player) ||
+           (board[0] == player && board[4] == player && board[8] == player) ||
+           (board[2] == player && board[4] == player && board[6] == player)
+           ) {
+           return true;
+       } 
+       return false;
+   }
+
+    // get remaining empty box index values
+    getEmptyIndexies(){
+        return this.currentBoardIndexValue.filter(i => i != 'X' && i != 'O');
     }
 
     // get a random index from an remainingbox array
@@ -236,11 +325,7 @@ export default class TicTacToe extends LightningElement {
         var winnotfound = true;
         // Check for winning Combination
         this.winCombination.forEach(e => {
-            if(winnotfound && this.template.querySelector('[data-id=box-'+e[0]+']').innerHTML
-                && this.template.querySelector('[data-id=box-'+e[1]+']').innerHTML
-                && this.template.querySelector('[data-id=box-'+e[2]+']').innerHTML
-                && (this.template.querySelector('[data-id=box-'+e[0]+']').innerHTML == this.template.querySelector('[data-id=box-'+e[1]+']').innerHTML)
-                && (this.template.querySelector('[data-id=box-'+e[1]+']').innerHTML == this.template.querySelector('[data-id=box-'+e[2]+']').innerHTML)){
+            if(winnotfound && this.getWinningCombination(e)){
                     // Game Over true
                     this.isGameOver = true;
                     // Remove player-won value text
@@ -261,6 +346,16 @@ export default class TicTacToe extends LightningElement {
             }
         });
         return this.isGameOver;
+    }
+
+    getWinningCombination(e){
+        if(this.template.querySelector('[data-id=box-'+e[0]+']').innerHTML
+            && this.template.querySelector('[data-id=box-'+e[1]+']').innerHTML
+            && this.template.querySelector('[data-id=box-'+e[2]+']').innerHTML
+            && (this.template.querySelector('[data-id=box-'+e[0]+']').innerHTML == this.template.querySelector('[data-id=box-'+e[1]+']').innerHTML)
+            && (this.template.querySelector('[data-id=box-'+e[1]+']').innerHTML == this.template.querySelector('[data-id=box-'+e[2]+']').innerHTML)){
+                return true;
+        }
     }
 
     // add pulse CSS to highligh winning combination boxes
@@ -290,25 +385,23 @@ export default class TicTacToe extends LightningElement {
 
     // verify draw match 
     checkDrawMatch(){
-        var draw = 0
-        this.template.querySelectorAll('.box').forEach(element => {
-            if(element.innerHTML) draw++;
-        });
+        let emptyindexies = this.getEmptyIndexies();
         // if its a draw
-        if(draw == 9){
+        if(!emptyindexies.length){
             // Remove Next turn value text
             this.template.querySelector('[data-id=player-turn-text]').textContent = '';
+            // Dsiplay Result as "Draw"
             this.template.querySelector('[data-id=player-won]').textContent = 'Draw';
         }
     }
 
     // handle Restart on "Restart Game" and "level" options change
     handleRestart(){
+        this.isFirstTurn = true;
+        this.currentBoardIndexValue = [0, 1, 2, 3, 4, 5, 6, 7, 8]
         this.isLoading = true;
         this.isGameOver = false;
         this.turn = 'X';
-        this.filledbox = [];
-        this.remainingbox = [0, 1, 2, 3, 4, 5, 6, 7, 8]
         // Play restart track
         this.playTrack(this.restart_track);
         // Remove player-won value text

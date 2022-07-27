@@ -19,6 +19,9 @@ div.imgcontainer p:hover span {
 .main{
     background-color: #202124;
 }
+.leveldesc{
+    font-size: 18px;
+}
 .astroimg{
     height: 6vw;
 }
