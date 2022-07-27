@@ -11,6 +11,9 @@ import beast_level from '@salesforce/resourceUrl/beast_level';
 import turnChangeTrack from '@salesforce/resourceUrl/turn_change_track';
 import winnerTrack from '@salesforce/resourceUrl/winner_track';
 import restartTrack from '@salesforce/resourceUrl/restart_track'; 
+// Instructions
+import instruction_img from '@salesforce/resourceUrl/instruction_img'; 
+import instructions from '@salesforce/label/c.tic_tac_toe_instructions';
 
 export default class TicTacToe extends LightningElement {
     
@@ -77,6 +80,12 @@ export default class TicTacToe extends LightningElement {
     // points
     X_Points = 0
     O_Points = 0
+    // instructions
+    label = {
+        instructions
+    };
+    isShowInfo = false
+    instruction_img = instruction_img
 
     // change to next turn value
     swapTurn(){
@@ -117,6 +126,15 @@ export default class TicTacToe extends LightningElement {
     // show description on selected level  
     get getleveldescription(){
         return this.level == 'CPU_Easy' ? 'Computer is dumb' : this.level == 'CPU_Hard' ? 'Computer is a Beast' : '';
+    }
+
+    // show instructions onhover
+    oninfo(){
+        this.isShowInfo = true;
+    }
+    // show instructions onhover out
+    offinfo(){
+        this.isShowInfo = false;
     }
 
     // handleClick on turn change

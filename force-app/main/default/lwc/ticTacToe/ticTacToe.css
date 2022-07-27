@@ -26,6 +26,12 @@ div.imgcontainer p:hover span {
     width: 0;
     transition: width 1s ease-in-out;
 }
+.instrctiontooltip{
+    position: absolute;
+    top: -13.7rem;
+    width: 21rem;
+    left: 5.1rem;
+}
 .astroimg{
     height: 6vw;
 }
@@ -183,6 +189,11 @@ lightning-button.restart {
 @media screen and (max-width: 500px){
     .scoreBoard{
         flex-wrap: wrap;
+    }
+    .instrctiontooltip{
+        flex-wrap: wrap;
+        top: -25rem;
+        width: 16rem;
     }
 }
 /* CSS to apply screens which are above 270px and below 400px*/
